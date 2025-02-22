@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">pokemon app</string>
+    <string name="all_pokemon_tab_title">전체 포켓몬</string>
+    <string name="history_tab_title">히스토리</string>
 </resources>
