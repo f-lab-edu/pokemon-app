@@ -6,15 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.sdhong.pokemonapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val fragments = listOf(AllPokemonFragment(), HistoryFragment())
-    private val mainTabs = MainTab.entries.toTypedArray()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +30,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUpView() {
+        val fragments = listOf(AllPokemonFragment(), HistoryFragment())
         binding.viewPager.adapter = ViewPagerAdapter(fragments, this)
+
+        val mainTabs = MainTab.entries.toTypedArray()
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = getString(mainTabs[position].titleId)
             tab.icon = AppCompatResources.getDrawable(this, mainTabs[position].iconId)
