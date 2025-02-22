@@ -14,6 +14,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val fragments = listOf(AllPokemonFragment(), HistoryFragment())
+    private val mainTabs = MainTab.entries.toTypedArray()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,16 +35,8 @@ class MainActivity : AppCompatActivity() {
     private fun setUpView() {
         binding.viewPager.adapter = ViewPagerAdapter(fragments, this)
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
-            tab.text = when (position) {
-                0 -> getString(R.string.all_pokemon_tab_title)
-                1 -> getString(R.string.history_tab_title)
-                else -> ""
-            }
-            tab.icon = when (position) {
-                0 -> AppCompatResources.getDrawable(this, R.drawable.ic_pikachu)
-                1 -> AppCompatResources.getDrawable(this, R.drawable.ic_pokeball)
-                else -> null
-            }
+            tab.text = getString(mainTabs[position].titleId)
+            tab.icon = AppCompatResources.getDrawable(this, mainTabs[position].iconId)
         }.attach()
     }
 }
