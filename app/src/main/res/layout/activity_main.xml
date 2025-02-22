@@ -15,6 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:tabIconTint="@null"
         app:tabIndicatorFullWidth="true" />
 
     <androidx.viewpager2.widget.ViewPager2
