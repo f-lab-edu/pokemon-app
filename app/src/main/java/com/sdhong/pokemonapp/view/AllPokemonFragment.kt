@@ -10,8 +10,7 @@ import com.sdhong.pokemonapp.GridSpacingItemDecoration
 import com.sdhong.pokemonapp.common.Grid
 import com.sdhong.pokemonapp.databinding.FragmentAllPokemonBinding
 import com.sdhong.pokemonapp.model.Pokemon
-import com.sdhong.pokemonapp.model.allPokemons
-import com.sdhong.pokemonapp.model.seenPokemons
+import com.sdhong.pokemonapp.model.Pokemons
 
 class AllPokemonFragment : Fragment() {
 
@@ -42,17 +41,17 @@ class AllPokemonFragment : Fragment() {
             )
         }
 
-        mainAdapter.submitList(allPokemons)
+        mainAdapter.submitList(Pokemons.allPokemons)
         mainAdapter.setOnClick(::onPokemonClick)
     }
 
     fun onPokemonClick(position: Int) {
-        val pokemon = allPokemons[position]
-        val existed: Pokemon.Seen? = seenPokemons.find { it.imgUrl == pokemon.imgUrl }
+        val pokemon = Pokemons.allPokemons[position]
+        val existed: Pokemon.Seen? = Pokemons.seenPokemons.find { it.imgUrl == pokemon.imgUrl }
         if (existed != null) {
-            seenPokemons.remove(existed)
+            Pokemons.seenPokemons.remove(existed)
         }
-        seenPokemons.add(
+        Pokemons.seenPokemons.add(
             0,
             Pokemon.Seen(
                 name = pokemon.name,
