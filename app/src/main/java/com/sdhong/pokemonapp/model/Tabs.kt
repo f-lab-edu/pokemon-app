@@ -1,7 +1,8 @@
-package com.sdhong.pokemonapp
+package com.sdhong.pokemonapp.model
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import com.sdhong.pokemonapp.R
 
 enum class MainTab(
     @StringRes val titleId: Int,
