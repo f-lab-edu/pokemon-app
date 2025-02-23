@@ -6,8 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import com.sdhong.pokemonapp.common.Grid
 import com.sdhong.pokemonapp.databinding.FragmentAllPokemonBinding
+import com.sdhong.pokemonapp.model.Pokemon
 import com.sdhong.pokemonapp.model.allPokemons
+import com.sdhong.pokemonapp.model.seenPokemons
 
 class AllPokemonFragment : Fragment() {
 
@@ -28,21 +31,31 @@ class AllPokemonFragment : Fragment() {
 
         binding.recyclerViewAllPokemon.run {
             adapter = mainAdapter
-            layoutManager = GridLayoutManager(context, DEFAULT_SPAN_COUNT)
+            layoutManager = GridLayoutManager(context, Grid.DEFAULT_SPAN_COUNT)
             addItemDecoration(
                 GridSpacingItemDecoration(
-                    spanCount = DEFAULT_SPAN_COUNT,
-                    spacing = DEFAULT_GRID_SPACING,
+                    spanCount = Grid.DEFAULT_SPAN_COUNT,
+                    spacing = Grid.DEFAULT_GRID_SPACING,
                     includeEdge = true
                 )
             )
         }
 
         mainAdapter.submitList(allPokemons)
+        mainAdapter.setOnClick(::onPokemonClick)
     }
 
-    companion object {
-        private const val DEFAULT_SPAN_COUNT = 2
-        private const val DEFAULT_GRID_SPACING = 50
+    fun onPokemonClick(position: Int) {
+        val pokemon = allPokemons[position]
+        seenPokemons.add(
+            0,
+            Pokemon.Seen(
+                name = pokemon.name,
+                imgUrl = pokemon.imgUrl,
+                lastViewed = System.currentTimeMillis().toString()
+            )
+        )
+
+        // TODO: 상세 페이지 이동
     }
 }

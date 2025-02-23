@@ -19,6 +19,12 @@ class MainAdapter : ListAdapter<Pokemon, ViewHolder>(object : ItemCallback<Pokem
     }
 }) {
 
+    private lateinit var onClick: (position: Int) -> Unit
+
+    fun setOnClick(onClick: (position: Int) -> Unit) {
+        this.onClick = onClick
+    }
+
     override fun getItemViewType(position: Int): Int = getItem(position).viewType
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -28,7 +34,8 @@ class MainAdapter : ListAdapter<Pokemon, ViewHolder>(object : ItemCallback<Pokem
                     LayoutInflater.from(parent.context),
                     parent,
                     false
-                )
+                ),
+                onClick
             )
 
             else -> SeenViewHolder(
@@ -36,7 +43,8 @@ class MainAdapter : ListAdapter<Pokemon, ViewHolder>(object : ItemCallback<Pokem
                     LayoutInflater.from(parent.context),
                     parent,
                     false
-                )
+                ),
+                onClick
             )
         }
     }
