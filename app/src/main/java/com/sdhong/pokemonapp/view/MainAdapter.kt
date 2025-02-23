@@ -4,20 +4,23 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil.ItemCallback
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import androidx.viewbinding.ViewBinding
+import com.sdhong.pokemonapp.BaseViewHolder
 import com.sdhong.pokemonapp.databinding.ItemPokemonBinding
 import com.sdhong.pokemonapp.databinding.ItemPokemonSeenBinding
 import com.sdhong.pokemonapp.model.Pokemon
 
-class MainAdapter : ListAdapter<Pokemon, ViewHolder>(object : ItemCallback<Pokemon>() {
-    override fun areItemsTheSame(oldItem: Pokemon, newItem: Pokemon): Boolean {
-        return oldItem.imgUrl == newItem.imgUrl
-    }
+class MainAdapter : ListAdapter<Pokemon, BaseViewHolder<ViewBinding, Pokemon>>(
+    object : ItemCallback<Pokemon>() {
+        override fun areItemsTheSame(oldItem: Pokemon, newItem: Pokemon): Boolean {
+            return oldItem.imgUrl == newItem.imgUrl
+        }
 
-    override fun areContentsTheSame(oldItem: Pokemon, newItem: Pokemon): Boolean {
-        return oldItem == newItem
+        override fun areContentsTheSame(oldItem: Pokemon, newItem: Pokemon): Boolean {
+            return oldItem == newItem
+        }
     }
-}) {
+) {
 
     private lateinit var onClick: (position: Int) -> Unit
 
@@ -27,7 +30,10 @@ class MainAdapter : ListAdapter<Pokemon, ViewHolder>(object : ItemCallback<Pokem
 
     override fun getItemViewType(position: Int): Int = getItem(position).viewType
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): BaseViewHolder<ViewBinding, Pokemon> {
         return when (viewType) {
             Pokemon.TYPE_NORMAL -> NormalViewHolder(
                 ItemPokemonBinding.inflate(
@@ -36,7 +42,7 @@ class MainAdapter : ListAdapter<Pokemon, ViewHolder>(object : ItemCallback<Pokem
                     false
                 ),
                 onClick
-            )
+            ) as BaseViewHolder<ViewBinding, Pokemon>
 
             else -> SeenViewHolder(
                 ItemPokemonSeenBinding.inflate(
@@ -45,14 +51,11 @@ class MainAdapter : ListAdapter<Pokemon, ViewHolder>(object : ItemCallback<Pokem
                     false
                 ),
                 onClick
-            )
+            ) as BaseViewHolder<ViewBinding, Pokemon>
         }
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        when (holder) {
-            is NormalViewHolder -> holder.bind(getItem(position) as Pokemon.Normal)
-            is SeenViewHolder -> holder.bind(getItem(position) as Pokemon.Seen)
-        }
+    override fun onBindViewHolder(holder: BaseViewHolder<ViewBinding, Pokemon>, position: Int) {
+        holder.bind(getItem(position))
     }
 }

@@ -1,14 +1,14 @@
 package com.sdhong.pokemonapp.view
 
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import coil3.load
+import com.sdhong.pokemonapp.BaseViewHolder
 import com.sdhong.pokemonapp.databinding.ItemPokemonBinding
 import com.sdhong.pokemonapp.model.Pokemon
 
 class NormalViewHolder(
     private val binding: ItemPokemonBinding,
     private val onPokemonClick: (position: Int) -> Unit
-) : ViewHolder(binding.root) {
+) : BaseViewHolder<ItemPokemonBinding, Pokemon.Normal>(binding) {
 
     init {
         binding.root.setOnClickListener {
@@ -16,8 +16,8 @@ class NormalViewHolder(
         }
     }
 
-    fun bind(pokemon: Pokemon.Normal) {
-        binding.imageViewPokemon.load(pokemon.imgUrl)
-        binding.textViewPokemon.text = pokemon.name
+    override fun bind(item: Pokemon.Normal) {
+        binding.imageViewPokemon.load(item.imgUrl)
+        binding.textViewPokemon.text = item.name
     }
 }
