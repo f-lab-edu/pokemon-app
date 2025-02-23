@@ -48,6 +48,10 @@ class AllPokemonFragment : Fragment() {
 
     fun onPokemonClick(position: Int) {
         val pokemon = allPokemons[position]
+        val existed: Pokemon.Seen? = seenPokemons.find { it.imgUrl == pokemon.imgUrl }
+        if (existed != null) {
+            seenPokemons.remove(existed)
+        }
         seenPokemons.add(
             0,
             Pokemon.Seen(
