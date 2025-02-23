@@ -1,6 +1,8 @@
 package com.sdhong.pokemonapp.view
 
 import android.content.Intent
+import android.icu.text.SimpleDateFormat
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -47,6 +49,9 @@ class AllPokemonFragment : Fragment() {
     }
 
     private fun onPokemonClick(position: Int) {
+        val dateFormat = SimpleDateFormat.getDateTimeInstance()
+        val time = dateFormat.format(Calendar.getInstance().time)
+
         val pokemon = Pokemons.allPokemons[position]
         val existed: Pokemon.Seen? = Pokemons.seenPokemons.find { it.imgUrl == pokemon.imgUrl }
         if (existed != null) {
@@ -57,7 +62,7 @@ class AllPokemonFragment : Fragment() {
             Pokemon.Seen(
                 name = pokemon.name,
                 imgUrl = pokemon.imgUrl,
-                lastViewed = System.currentTimeMillis().toString()
+                lastViewed = time
             )
         )
 

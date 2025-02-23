@@ -1,6 +1,8 @@
 package com.sdhong.pokemonapp.view
 
 import android.content.Intent
+import android.icu.text.SimpleDateFormat
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -52,6 +54,9 @@ class HistoryFragment : Fragment() {
     }
 
     private fun onPokemonClick(position: Int) {
+        val dateFormat = SimpleDateFormat.getDateTimeInstance()
+        val time = dateFormat.format(Calendar.getInstance().time)
+
         val pokemon = Pokemons.seenPokemons[position]
         Pokemons.seenPokemons.remove(pokemon)
         Pokemons.seenPokemons.add(
@@ -59,7 +64,7 @@ class HistoryFragment : Fragment() {
             Pokemon.Seen(
                 name = pokemon.name,
                 imgUrl = pokemon.imgUrl,
-                lastViewed = System.currentTimeMillis().toString()
+                lastViewed = time
             )
         )
 
