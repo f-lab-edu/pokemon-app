@@ -47,6 +47,7 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
 
+    implementation(libs.androidx.recyclerview)
     implementation(libs.coil3.coil)
     implementation(libs.coil.network.okhttp)
 
