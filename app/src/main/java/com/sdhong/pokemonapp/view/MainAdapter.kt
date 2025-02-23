@@ -1,4 +1,4 @@
-package com.sdhong.pokemonapp
+package com.sdhong.pokemonapp.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
