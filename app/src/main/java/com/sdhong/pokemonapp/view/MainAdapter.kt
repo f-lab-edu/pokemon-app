@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil.ItemCallback
 import androidx.recyclerview.widget.ListAdapter
-import com.sdhong.pokemonapp.BaseViewHolder
+import com.sdhong.pokemonapp.base.BaseViewHolder
 import com.sdhong.pokemonapp.databinding.ItemPokemonBinding
 import com.sdhong.pokemonapp.databinding.ItemPokemonSeenBinding
 import com.sdhong.pokemonapp.model.Pokemon

@@ -1,4 +1,4 @@
-package com.sdhong.pokemonapp
+package com.sdhong.pokemonapp.base
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView.ViewHolder

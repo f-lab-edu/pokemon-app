@@ -1,7 +1,7 @@
 package com.sdhong.pokemonapp.view
 
 import coil3.load
-import com.sdhong.pokemonapp.BaseViewHolder
+import com.sdhong.pokemonapp.base.BaseViewHolder
 import com.sdhong.pokemonapp.R
 import com.sdhong.pokemonapp.databinding.ItemPokemonSeenBinding
 import com.sdhong.pokemonapp.model.Pokemon
