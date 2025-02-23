@@ -1,5 +1,6 @@
 package com.sdhong.pokemonapp.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -45,7 +46,7 @@ class AllPokemonFragment : Fragment() {
         mainAdapter.setOnClick(::onPokemonClick)
     }
 
-    fun onPokemonClick(position: Int) {
+    private fun onPokemonClick(position: Int) {
         val pokemon = Pokemons.allPokemons[position]
         val existed: Pokemon.Seen? = Pokemons.seenPokemons.find { it.imgUrl == pokemon.imgUrl }
         if (existed != null) {
@@ -60,6 +61,9 @@ class AllPokemonFragment : Fragment() {
             )
         )
 
-        // TODO: 상세 페이지 이동
+        val context = context
+        if (context != null) {
+            startActivity(Intent(context, DetailActivity::class.java))
+        }
     }
 }

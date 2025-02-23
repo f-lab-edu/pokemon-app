@@ -1,5 +1,6 @@
 package com.sdhong.pokemonapp.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +10,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.sdhong.pokemonapp.GridSpacingItemDecoration
 import com.sdhong.pokemonapp.common.Grid
 import com.sdhong.pokemonapp.databinding.FragmentHistoryBinding
-import com.sdhong.pokemonapp.model.seenPokemons
+import com.sdhong.pokemonapp.model.Pokemon
+import com.sdhong.pokemonapp.model.Pokemons
 
 class HistoryFragment : Fragment() {
 
@@ -46,11 +48,24 @@ class HistoryFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        mainAdapter.submitList(seenPokemons.toList())
+        mainAdapter.submitList(Pokemons.seenPokemons.toList())
     }
 
-    fun onPokemonClick(position: Int) {
-        val pokemon = seenPokemons[position]
-        // TODO: 상세 페이지 이동
+    private fun onPokemonClick(position: Int) {
+        val pokemon = Pokemons.seenPokemons[position]
+        Pokemons.seenPokemons.remove(pokemon)
+        Pokemons.seenPokemons.add(
+            0,
+            Pokemon.Seen(
+                name = pokemon.name,
+                imgUrl = pokemon.imgUrl,
+                lastViewed = System.currentTimeMillis().toString()
+            )
+        )
+
+        val context = context
+        if (context != null) {
+            startActivity(Intent(context, DetailActivity::class.java))
+        }
     }
 }
