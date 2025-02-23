@@ -1,83 +1,83 @@
 package com.sdhong.pokemonapp.model
 
 val allPokemons = listOf(
-    Pokemon(
+    Pokemon.Normal(
         name = "bulbasaur",
         imgUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"
     ),
-    Pokemon(
+    Pokemon.Normal(
         name = "ivysaur",
         imgUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png"
     ),
-    Pokemon(
+    Pokemon.Normal(
         name = "venusaur",
         imgUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png"
     ),
-    Pokemon(
+    Pokemon.Normal(
         name = "charmander",
         imgUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png"
     ),
-    Pokemon(
+    Pokemon.Normal(
         name = "charmeleon",
         imgUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png"
     ),
-    Pokemon(
+    Pokemon.Normal(
         name = "charizard",
         imgUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png"
     ),
-    Pokemon(
+    Pokemon.Normal(
         name = "squirtle",
         imgUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png"
     ),
-    Pokemon(
+    Pokemon.Normal(
         name = "wartortle",
         imgUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/8.png"
     ),
-    Pokemon(
+    Pokemon.Normal(
         name = "blastoise",
         imgUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png"
     ),
-    Pokemon(
+    Pokemon.Normal(
         name = "caterpie",
         imgUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10.png"
     ),
-    Pokemon(
+    Pokemon.Normal(
         name = "metapod",
         imgUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/11.png"
     ),
-    Pokemon(
+    Pokemon.Normal(
         name = "butterfree",
         imgUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/12.png"
     ),
-    Pokemon(
+    Pokemon.Normal(
         name = "weedle",
         imgUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/13.png"
     ),
-    Pokemon(
+    Pokemon.Normal(
         name = "kakuna",
         imgUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/14.png"
     ),
-    Pokemon(
+    Pokemon.Normal(
         name = "beedrill",
         imgUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/15.png"
     ),
-    Pokemon(
+    Pokemon.Normal(
         name = "pidgey",
         imgUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/16.png"
     ),
-    Pokemon(
+    Pokemon.Normal(
         name = "pidgeotto",
         imgUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/17.png"
     ),
-    Pokemon(
+    Pokemon.Normal(
         name = "pidgeot",
         imgUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/18.png"
     ),
-    Pokemon(
+    Pokemon.Normal(
         name = "rattata",
         imgUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/19.png"
     ),
-    Pokemon(
+    Pokemon.Normal(
         name = "raticate",
         imgUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/20.png"
     )
