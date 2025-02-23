@@ -8,6 +8,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.tabs.TabLayoutMediator
 import com.sdhong.pokemonapp.databinding.ActivityMainBinding
+import com.sdhong.pokemonapp.model.MainTab
 
 class MainActivity : AppCompatActivity() {
 
