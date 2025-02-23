@@ -5,12 +5,12 @@ import coil3.load
 import com.sdhong.pokemonapp.databinding.ItemPokemonBinding
 import com.sdhong.pokemonapp.model.Pokemon
 
-class MainViewHolder(
+class NormalViewHolder(
     private val binding: ItemPokemonBinding
 ) : ViewHolder(binding.root) {
 
-    fun bind(pokemon: Pokemon) {
-        binding.textViewPokemon.text = pokemon.name
+    fun bind(pokemon: Pokemon.Normal) {
         binding.imageViewPokemon.load(pokemon.imgUrl)
+        binding.textViewPokemon.text = pokemon.name
     }
 }
