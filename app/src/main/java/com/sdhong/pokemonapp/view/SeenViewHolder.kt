@@ -9,7 +9,7 @@ import com.sdhong.pokemonapp.model.Pokemon
 class SeenViewHolder(
     private val binding: ItemPokemonSeenBinding,
     private val onClick: (position: Int) -> Unit
-) : BaseViewHolder<ItemPokemonSeenBinding, Pokemon.Seen>(binding) {
+) : BaseViewHolder<Pokemon.Seen>(binding.root) {
 
     init {
         binding.root.setOnClickListener {

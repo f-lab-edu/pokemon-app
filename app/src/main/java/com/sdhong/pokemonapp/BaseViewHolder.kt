@@ -1,11 +1,11 @@
 package com.sdhong.pokemonapp
 
+import android.view.View
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import androidx.viewbinding.ViewBinding
 
-abstract class BaseViewHolder<VB : ViewBinding, ITEM : Any>(
-    binding: VB
-) : ViewHolder(binding.root) {
+abstract class BaseViewHolder<ITEM : Any>(
+    itemView: View
+) : ViewHolder(itemView) {
 
     abstract fun bind(item: ITEM)
 }

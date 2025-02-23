@@ -8,7 +8,7 @@ import com.sdhong.pokemonapp.model.Pokemon
 class NormalViewHolder(
     private val binding: ItemPokemonBinding,
     private val onPokemonClick: (position: Int) -> Unit
-) : BaseViewHolder<ItemPokemonBinding, Pokemon.Normal>(binding) {
+) : BaseViewHolder<Pokemon.Normal>(binding.root) {
 
     init {
         binding.root.setOnClickListener {
