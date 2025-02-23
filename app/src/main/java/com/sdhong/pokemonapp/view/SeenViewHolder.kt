@@ -1,7 +1,7 @@
 package com.sdhong.pokemonapp.view
 
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import coil3.load
+import com.sdhong.pokemonapp.base.BaseViewHolder
 import com.sdhong.pokemonapp.R
 import com.sdhong.pokemonapp.databinding.ItemPokemonSeenBinding
 import com.sdhong.pokemonapp.model.Pokemon
@@ -9,7 +9,7 @@ import com.sdhong.pokemonapp.model.Pokemon
 class SeenViewHolder(
     private val binding: ItemPokemonSeenBinding,
     private val onClick: (position: Int) -> Unit
-) : ViewHolder(binding.root) {
+) : BaseViewHolder<Pokemon.Seen>(binding.root) {
 
     init {
         binding.root.setOnClickListener {
@@ -17,11 +17,11 @@ class SeenViewHolder(
         }
     }
 
-    fun bind(pokemon: Pokemon.Seen) {
-        binding.imageViewPokemonSeen.load(pokemon.imgUrl)
-        binding.textViewPokemonSeen.text = pokemon.name
+    override fun bind(item: Pokemon.Seen) {
+        binding.imageViewPokemonSeen.load(item.imgUrl)
+        binding.textViewPokemonSeen.text = item.name
         binding.textViewLastViewed.run {
-            text = context.getString(R.string.last_viewed, pokemon.lastViewed)
+            text = context.getString(R.string.last_viewed, item.lastViewed)
         }
     }
 }
