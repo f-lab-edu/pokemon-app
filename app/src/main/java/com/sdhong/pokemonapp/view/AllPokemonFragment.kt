@@ -42,13 +42,10 @@ class AllPokemonFragment : BaseFragment<FragmentAllPokemonBinding>(
     }
 
     private fun onPokemonClick(position: Int) {
-//        val pokemon = Pokemons.allPokemons[position]
-//        val existed: Pokemon.Seen? = Pokemons.seenPokemons.find { it.imgUrl == pokemon.imgUrl }
-//        if (existed != null) {
-//            Pokemons.seenPokemons.remove(existed)
-//        }
-//
-//        addPokemonSeen(pokemon)
-//        startDetailActivity()
+        viewModel.onPokemonClick(
+            position = position,
+            addPokemonSeen = ::addPokemonSeen,
+            startDetailActivity = ::startDetailActivity
+        )
     }
 }

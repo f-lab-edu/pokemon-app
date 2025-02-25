@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sdhong.pokemonapp.model.Pokemon
 import com.sdhong.pokemonapp.model.PokemonListResponse.PokemonListItem
+import com.sdhong.pokemonapp.model.Pokemons
 import com.sdhong.pokemonapp.remote.RetrofitClient
 import com.sdhong.pokemonapp.remote.api.PokemonApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,5 +31,18 @@ class AllPokemonViewModel : ViewModel() {
                 }.png"
             )
         }
+    }
+
+    fun onPokemonClick(
+        position: Int,
+        addPokemonSeen: (Pokemon) -> Unit,
+        startDetailActivity: () -> Unit
+    ) {
+        val pokemon = _allPokemon.value[position]
+        Pokemons.seenPokemons.find { it.id == pokemon.id }?.let {
+            Pokemons.seenPokemons.remove(it)
+        }
+        addPokemonSeen(pokemon)
+        startDetailActivity()
     }
 }

@@ -12,7 +12,7 @@ import com.sdhong.pokemonapp.model.Pokemon
 class MainAdapter : ListAdapter<Pokemon, BaseViewHolder<Pokemon>>(
     object : ItemCallback<Pokemon>() {
         override fun areItemsTheSame(oldItem: Pokemon, newItem: Pokemon): Boolean {
-            return oldItem.imgUrl == newItem.imgUrl
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Pokemon, newItem: Pokemon): Boolean {
