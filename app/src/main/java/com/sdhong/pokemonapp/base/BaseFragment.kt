@@ -53,6 +53,7 @@ abstract class BaseFragment<VB : ViewBinding>(
         Pokemons.seenPokemons.add(
             0,
             Pokemon.Seen(
+                id = pokemon.id,
                 name = pokemon.name,
                 imgUrl = pokemon.imgUrl,
                 lastViewed = Formatter.dateFormat.format(Calendar.getInstance().time)
