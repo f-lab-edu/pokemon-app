@@ -49,10 +49,10 @@ abstract class BaseFragment<VB : ViewBinding>(
         }
     }
 
-    protected fun addPokemonSeen(pokemon: Pokemon) {
-        Pokemons.seenPokemons.add(
+    protected fun addPokemonHistory(pokemon: Pokemon) {
+        Pokemons.historyPokemons.add(
             0,
-            Pokemon.Seen(
+            Pokemon.History(
                 id = pokemon.id,
                 name = pokemon.name,
                 imgUrl = pokemon.imgUrl,

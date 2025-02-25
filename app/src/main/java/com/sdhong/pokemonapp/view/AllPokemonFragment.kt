@@ -44,7 +44,7 @@ class AllPokemonFragment : BaseFragment<FragmentAllPokemonBinding>(
     private fun onPokemonClick(position: Int) {
         viewModel.onPokemonClick(
             position = position,
-            addPokemonSeen = ::addPokemonSeen,
+            addPokemonHistory = ::addPokemonHistory,
             startDetailActivity = ::startDetailActivity
         )
     }

@@ -23,14 +23,14 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
 
     override fun onResume() {
         super.onResume()
-        historyAdapter.submitList(Pokemons.seenPokemons.toList())
+        historyAdapter.submitList(Pokemons.historyPokemons.toList())
     }
 
     private fun onPokemonClick(position: Int) {
-        val pokemon = Pokemons.seenPokemons[position]
-        Pokemons.seenPokemons.remove(pokemon)
+        val pokemon = Pokemons.historyPokemons[position]
+        Pokemons.historyPokemons.remove(pokemon)
 
-        addPokemonSeen(pokemon)
+        addPokemonHistory(pokemon)
         startDetailActivity()
     }
 }

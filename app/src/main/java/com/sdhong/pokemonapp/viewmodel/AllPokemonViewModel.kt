@@ -35,14 +35,14 @@ class AllPokemonViewModel : ViewModel() {
 
     fun onPokemonClick(
         position: Int,
-        addPokemonSeen: (Pokemon) -> Unit,
+        addPokemonHistory: (Pokemon) -> Unit,
         startDetailActivity: () -> Unit
     ) {
         val pokemon = _allPokemon.value[position]
-        Pokemons.seenPokemons.find { it.id == pokemon.id }?.let {
-            Pokemons.seenPokemons.remove(it)
+        Pokemons.historyPokemons.find { it.id == pokemon.id }?.let {
+            Pokemons.historyPokemons.remove(it)
         }
-        addPokemonSeen(pokemon)
+        addPokemonHistory(pokemon)
         startDetailActivity()
     }
 }

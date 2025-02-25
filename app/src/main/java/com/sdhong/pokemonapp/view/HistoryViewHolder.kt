@@ -1,15 +1,15 @@
 package com.sdhong.pokemonapp.view
 
 import coil3.load
-import com.sdhong.pokemonapp.base.BaseViewHolder
 import com.sdhong.pokemonapp.R
-import com.sdhong.pokemonapp.databinding.ItemPokemonSeenBinding
+import com.sdhong.pokemonapp.base.BaseViewHolder
+import com.sdhong.pokemonapp.databinding.ItemPokemonHistoryBinding
 import com.sdhong.pokemonapp.model.Pokemon
 
-class SeenViewHolder(
-    private val binding: ItemPokemonSeenBinding,
+class HistoryViewHolder(
+    private val binding: ItemPokemonHistoryBinding,
     private val onClick: (position: Int) -> Unit
-) : BaseViewHolder<Pokemon.Seen>(binding.root) {
+) : BaseViewHolder<Pokemon.History>(binding.root) {
 
     init {
         binding.root.setOnClickListener {
@@ -17,9 +17,9 @@ class SeenViewHolder(
         }
     }
 
-    override fun bind(item: Pokemon.Seen) {
-        binding.imageViewPokemonSeen.load(item.imgUrl)
-        binding.textViewPokemonSeen.text = item.name
+    override fun bind(item: Pokemon.History) {
+        binding.imageViewPokemonHistory.load(item.imgUrl)
+        binding.textViewPokemonHistory.text = item.name
         binding.textViewLastViewed.run {
             text = context.getString(R.string.last_viewed, item.lastViewed)
         }
