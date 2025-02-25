@@ -1,4 +1,4 @@
-package com.sdhong.pokemonapp.model
+package com.sdhong.pokemonapp.remote.model
 
 import kotlinx.serialization.Serializable
 
