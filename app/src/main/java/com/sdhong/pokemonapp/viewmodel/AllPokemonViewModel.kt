@@ -4,9 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sdhong.pokemonapp.model.Pokemon
 import com.sdhong.pokemonapp.model.Pokemons
-import com.sdhong.pokemonapp.remote.RetrofitClient
-import com.sdhong.pokemonapp.remote.api.PokemonApi
 import com.sdhong.pokemonapp.remote.model.PokemonListResponse.PokemonListItem
+import com.sdhong.pokemonapp.remote.module.PokemonApiModule.pokemonApi
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -16,13 +15,11 @@ import kotlinx.coroutines.launch
 
 class AllPokemonViewModel : ViewModel() {
 
-    private val retrofit = RetrofitClient.retrofit.create(PokemonApi::class.java)
-
     private val _allPokemon = MutableStateFlow<List<Pokemon.Normal>>(emptyList())
     val allPokemon = _allPokemon.asStateFlow()
 
     fun getAllPokemon() = viewModelScope.launch {
-        val result: List<PokemonListItem> = retrofit.getAllPokemon().results
+        val result: List<PokemonListItem> = pokemonApi.getAllPokemon().results
         val imgUrlsDeferred = result.map { item -> getImgUrl(item) }
         val imgUrls = imgUrlsDeferred.awaitAll()
 
@@ -37,7 +34,7 @@ class AllPokemonViewModel : ViewModel() {
 
     private fun getImgUrl(item: PokemonListItem): Deferred<String> = viewModelScope.async {
         val id = item.url.split("/")[6].toInt()
-        val imgUrl = retrofit.getPokemonDetail(id).sprites.imgUrl
+        val imgUrl = pokemonApi.getPokemonDetail(id).sprites.imgUrl
         return@async imgUrl
     }
 
