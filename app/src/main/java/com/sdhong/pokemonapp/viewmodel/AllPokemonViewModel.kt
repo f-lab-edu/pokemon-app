@@ -18,18 +18,20 @@ class AllPokemonViewModel : ViewModel() {
     private val _allPokemon = MutableStateFlow<List<Pokemon.Normal>>(emptyList())
     val allPokemon = _allPokemon.asStateFlow()
 
-    fun getAllPokemon() = viewModelScope.launch {
-        val result: List<PokemonListItem> = pokemonApi.getAllPokemon().results
-        val imgUrlsDeferred = result.map { item -> getImgUrl(item) }
-        val imgUrls = imgUrlsDeferred.awaitAll()
+    init {
+        viewModelScope.launch {
+            val result: List<PokemonListItem> = pokemonApi.getAllPokemon().results
+            val imgUrlsDeferred = result.map { item -> getImgUrl(item) }
+            val imgUrls = imgUrlsDeferred.awaitAll()
 
-        _allPokemon.value = result.mapIndexed { index, item ->
-            Pokemon.Normal(
-                id = index + 1,
-                name = item.name,
-                imgUrl = imgUrls[index],
-                detailUrl = item.url
-            )
+            _allPokemon.value = result.mapIndexed { index, item ->
+                Pokemon.Normal(
+                    id = index + 1,
+                    name = item.name,
+                    imgUrl = imgUrls[index],
+                    detailUrl = item.url
+                )
+            }
         }
     }
 

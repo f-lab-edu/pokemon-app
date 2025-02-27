@@ -21,8 +21,6 @@ class AllPokemonFragment : BaseFragment<FragmentAllPokemonBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getAllPokemon()
-
         binding?.recyclerViewAllPokemon?.adapter = allPokemonAdapter
         setUpRecyclerView(binding?.recyclerViewAllPokemon)
 
