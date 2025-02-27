@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class PokemonDetailResponse(
+    val name: String,
     val sprites: Sprites
 ) {
     @Serializable

@@ -31,6 +31,10 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
         Pokemons.historyPokemons.remove(pokemon)
 
         addPokemonHistory(pokemon)
-        startDetailActivity(pokemon.detailUrl)
+        startDetailActivity(getPokemonId(pokemon.detailUrl))
+    }
+
+    private fun getPokemonId(url: String): Int {
+        return url.split("/")[6].toInt()
     }
 }

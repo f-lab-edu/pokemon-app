@@ -8,8 +8,14 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import coil3.load
 import com.sdhong.pokemonapp.databinding.ActivityDetailBinding
 import com.sdhong.pokemonapp.viewmodel.DetailViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class DetailActivity : AppCompatActivity() {
 
@@ -27,6 +33,19 @@ class DetailActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+
+        setCollectors()
+    }
+
+    private fun setCollectors() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.pokemonDetail.collectLatest {
+                    binding.imageViewPokemon.load(it.imgUrl)
+                    binding.textViewPokemonName.text = it.name
+                }
+            }
         }
     }
 
