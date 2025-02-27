@@ -36,7 +36,7 @@ class AllPokemonViewModel : ViewModel() {
     }
 
     private fun getImgUrl(item: PokemonListItem): Deferred<String> = viewModelScope.async {
-        val id = item.url.split("/")[6].toInt()
+        val id = getPokemonId(item.url)
         val imgUrl = pokemonApi.getPokemonDetail(id).sprites.imgUrl
         return@async imgUrl
     }
@@ -44,13 +44,17 @@ class AllPokemonViewModel : ViewModel() {
     fun onPokemonClick(
         position: Int,
         addPokemonHistory: (Pokemon) -> Unit,
-        startDetailActivity: (detailUrl: String) -> Unit
+        startDetailActivity: (pokemonId: Int) -> Unit
     ) {
         val pokemon = _allPokemon.value[position]
         Pokemons.historyPokemons.find { it.uid == pokemon.uid }?.let {
             Pokemons.historyPokemons.remove(it)
         }
         addPokemonHistory(pokemon)
-        startDetailActivity(pokemon.detailUrl)
+        startDetailActivity(getPokemonId(pokemon.detailUrl))
+    }
+
+    private fun getPokemonId(url: String): Int {
+        return url.split("/")[6].toInt()
     }
 }
