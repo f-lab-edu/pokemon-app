@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import com.sdhong.pokemonapp.base.BaseFragment
 import com.sdhong.pokemonapp.databinding.FragmentHistoryBinding
-import com.sdhong.pokemonapp.model.Pokemons
+import com.sdhong.pokemonapp.local.Pokemons
 
 class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
     bindingFactory = FragmentHistoryBinding::inflate
@@ -23,14 +23,14 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
 
     override fun onResume() {
         super.onResume()
-        historyAdapter.submitList(Pokemons.seenPokemons.toList())
+        historyAdapter.submitList(Pokemons.historyPokemons.toList())
     }
 
     private fun onPokemonClick(position: Int) {
-        val pokemon = Pokemons.seenPokemons[position]
-        Pokemons.seenPokemons.remove(pokemon)
+        val pokemon = Pokemons.historyPokemons[position]
+        Pokemons.historyPokemons.remove(pokemon)
 
-        addPokemonSeen(pokemon)
+        addPokemonHistory(pokemon)
         startDetailActivity()
     }
 }

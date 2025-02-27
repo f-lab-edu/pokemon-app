@@ -6,13 +6,13 @@ import androidx.recyclerview.widget.DiffUtil.ItemCallback
 import androidx.recyclerview.widget.ListAdapter
 import com.sdhong.pokemonapp.base.BaseViewHolder
 import com.sdhong.pokemonapp.databinding.ItemPokemonBinding
-import com.sdhong.pokemonapp.databinding.ItemPokemonSeenBinding
-import com.sdhong.pokemonapp.model.Pokemon
+import com.sdhong.pokemonapp.databinding.ItemPokemonHistoryBinding
+import com.sdhong.pokemonapp.local.model.Pokemon
 
 class MainAdapter : ListAdapter<Pokemon, BaseViewHolder<Pokemon>>(
     object : ItemCallback<Pokemon>() {
         override fun areItemsTheSame(oldItem: Pokemon, newItem: Pokemon): Boolean {
-            return oldItem.imgUrl == newItem.imgUrl
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Pokemon, newItem: Pokemon): Boolean {
@@ -43,8 +43,8 @@ class MainAdapter : ListAdapter<Pokemon, BaseViewHolder<Pokemon>>(
                 onClick
             ) as BaseViewHolder<Pokemon>
 
-            else -> SeenViewHolder(
-                ItemPokemonSeenBinding.inflate(
+            else -> HistoryViewHolder(
+                ItemPokemonHistoryBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false

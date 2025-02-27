@@ -3,7 +3,7 @@ package com.sdhong.pokemonapp.view
 import coil3.load
 import com.sdhong.pokemonapp.base.BaseViewHolder
 import com.sdhong.pokemonapp.databinding.ItemPokemonBinding
-import com.sdhong.pokemonapp.model.Pokemon
+import com.sdhong.pokemonapp.local.model.Pokemon
 
 class NormalViewHolder(
     private val binding: ItemPokemonBinding,

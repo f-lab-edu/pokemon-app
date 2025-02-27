@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.sdhong.pokemonapp.GridSpacingItemDecoration
 import com.sdhong.pokemonapp.common.Formatter
-import com.sdhong.pokemonapp.model.Pokemon
-import com.sdhong.pokemonapp.model.Pokemons
+import com.sdhong.pokemonapp.local.Pokemons
+import com.sdhong.pokemonapp.local.model.Pokemon
 import com.sdhong.pokemonapp.view.DetailActivity
 
 abstract class BaseFragment<VB : ViewBinding>(
@@ -49,10 +49,11 @@ abstract class BaseFragment<VB : ViewBinding>(
         }
     }
 
-    protected fun addPokemonSeen(pokemon: Pokemon) {
-        Pokemons.seenPokemons.add(
+    protected fun addPokemonHistory(pokemon: Pokemon) {
+        Pokemons.historyPokemons.add(
             0,
-            Pokemon.Seen(
+            Pokemon.History(
+                id = pokemon.id,
                 name = pokemon.name,
                 imgUrl = pokemon.imgUrl,
                 lastViewed = Formatter.dateFormat.format(Calendar.getInstance().time)

@@ -9,7 +9,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.tabs.TabLayoutMediator
 import com.sdhong.pokemonapp.ViewPagerAdapter
 import com.sdhong.pokemonapp.databinding.ActivityMainBinding
-import com.sdhong.pokemonapp.model.MainTab
+import com.sdhong.pokemonapp.local.MainTab
 
 class MainActivity : AppCompatActivity() {
 
