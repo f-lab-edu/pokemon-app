@@ -53,7 +53,7 @@ abstract class BaseFragment<VB : ViewBinding>(
         Pokemons.historyPokemons.add(
             0,
             Pokemon.History(
-                id = pokemon.id,
+                uid = pokemon.uid,
                 name = pokemon.name,
                 imgUrl = pokemon.imgUrl,
                 detailUrl = pokemon.detailUrl,

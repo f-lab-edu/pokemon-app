@@ -26,7 +26,7 @@ class AllPokemonViewModel : ViewModel() {
 
             _allPokemon.value = result.mapIndexed { index, item ->
                 Pokemon.Normal(
-                    id = index + 1,
+                    uid = index + 1,
                     name = item.name,
                     imgUrl = imgUrls[index],
                     detailUrl = item.url
@@ -47,7 +47,7 @@ class AllPokemonViewModel : ViewModel() {
         startDetailActivity: (detailUrl: String) -> Unit
     ) {
         val pokemon = _allPokemon.value[position]
-        Pokemons.historyPokemons.find { it.id == pokemon.id }?.let {
+        Pokemons.historyPokemons.find { it.uid == pokemon.uid }?.let {
             Pokemons.historyPokemons.remove(it)
         }
         addPokemonHistory(pokemon)
