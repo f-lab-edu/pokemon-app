@@ -1,4 +1,4 @@
-package com.sdhong.pokemonapp.model
+package com.sdhong.pokemonapp.local.model
 
 sealed interface Pokemon {
     val id: Int

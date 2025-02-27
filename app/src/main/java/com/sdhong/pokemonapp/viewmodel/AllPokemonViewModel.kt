@@ -2,8 +2,8 @@ package com.sdhong.pokemonapp.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sdhong.pokemonapp.model.Pokemon
-import com.sdhong.pokemonapp.model.Pokemons
+import com.sdhong.pokemonapp.local.Pokemons
+import com.sdhong.pokemonapp.local.model.Pokemon
 import com.sdhong.pokemonapp.remote.model.PokemonListResponse.PokemonListItem
 import com.sdhong.pokemonapp.remote.module.PokemonApiModule.pokemonApi
 import kotlinx.coroutines.Deferred

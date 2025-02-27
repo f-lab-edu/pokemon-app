@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import com.sdhong.pokemonapp.base.BaseFragment
 import com.sdhong.pokemonapp.databinding.FragmentHistoryBinding
-import com.sdhong.pokemonapp.model.Pokemons
+import com.sdhong.pokemonapp.local.Pokemons
 
 class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
     bindingFactory = FragmentHistoryBinding::inflate

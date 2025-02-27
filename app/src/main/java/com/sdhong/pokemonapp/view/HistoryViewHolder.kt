@@ -4,7 +4,7 @@ import coil3.load
 import com.sdhong.pokemonapp.R
 import com.sdhong.pokemonapp.base.BaseViewHolder
 import com.sdhong.pokemonapp.databinding.ItemPokemonHistoryBinding
-import com.sdhong.pokemonapp.model.Pokemon
+import com.sdhong.pokemonapp.local.model.Pokemon
 
 class HistoryViewHolder(
     private val binding: ItemPokemonHistoryBinding,

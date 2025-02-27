@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.sdhong.pokemonapp.base.BaseViewHolder
 import com.sdhong.pokemonapp.databinding.ItemPokemonBinding
 import com.sdhong.pokemonapp.databinding.ItemPokemonHistoryBinding
-import com.sdhong.pokemonapp.model.Pokemon
+import com.sdhong.pokemonapp.local.model.Pokemon
 
 class MainAdapter : ListAdapter<Pokemon, BaseViewHolder<Pokemon>>(
     object : ItemCallback<Pokemon>() {
