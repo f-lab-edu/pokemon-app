@@ -18,22 +18,25 @@ class AllPokemonViewModel : ViewModel() {
     private val _allPokemon = MutableStateFlow<List<Pokemon.Normal>>(emptyList())
     val allPokemon = _allPokemon.asStateFlow()
 
-    fun getAllPokemon() = viewModelScope.launch {
-        val result: List<PokemonListItem> = pokemonApi.getAllPokemon().results
-        val imgUrlsDeferred = result.map { item -> getImgUrl(item) }
-        val imgUrls = imgUrlsDeferred.awaitAll()
+    init {
+        viewModelScope.launch {
+            val result: List<PokemonListItem> = pokemonApi.getAllPokemon().results
+            val imgUrlsDeferred = result.map { item -> getImgUrl(item) }
+            val imgUrls = imgUrlsDeferred.awaitAll()
 
-        _allPokemon.value = result.mapIndexed { index, item ->
-            Pokemon.Normal(
-                id = index + 1,
-                name = item.name,
-                imgUrl = imgUrls[index]
-            )
+            _allPokemon.value = result.mapIndexed { index, item ->
+                Pokemon.Normal(
+                    uid = index + 1,
+                    name = item.name,
+                    imgUrl = imgUrls[index],
+                    detailUrl = item.url
+                )
+            }
         }
     }
 
     private fun getImgUrl(item: PokemonListItem): Deferred<String> = viewModelScope.async {
-        val id = item.url.split("/")[6].toInt()
+        val id = getPokemonId(item.url)
         val imgUrl = pokemonApi.getPokemonDetail(id).sprites.imgUrl
         return@async imgUrl
     }
@@ -41,13 +44,17 @@ class AllPokemonViewModel : ViewModel() {
     fun onPokemonClick(
         position: Int,
         addPokemonHistory: (Pokemon) -> Unit,
-        startDetailActivity: () -> Unit
+        startDetailActivity: (pokemonId: Int) -> Unit
     ) {
         val pokemon = _allPokemon.value[position]
-        Pokemons.historyPokemons.find { it.id == pokemon.id }?.let {
+        Pokemons.historyPokemons.find { it.uid == pokemon.uid }?.let {
             Pokemons.historyPokemons.remove(it)
         }
         addPokemonHistory(pokemon)
-        startDetailActivity()
+        startDetailActivity(getPokemonId(pokemon.detailUrl))
+    }
+
+    private fun getPokemonId(url: String): Int {
+        return url.split("/")[6].toInt()
     }
 }

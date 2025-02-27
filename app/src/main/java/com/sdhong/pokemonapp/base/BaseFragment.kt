@@ -1,6 +1,5 @@
 package com.sdhong.pokemonapp.base
 
-import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -53,18 +52,19 @@ abstract class BaseFragment<VB : ViewBinding>(
         Pokemons.historyPokemons.add(
             0,
             Pokemon.History(
-                id = pokemon.id,
+                uid = pokemon.uid,
                 name = pokemon.name,
                 imgUrl = pokemon.imgUrl,
+                detailUrl = pokemon.detailUrl,
                 lastViewed = Formatter.dateFormat.format(Calendar.getInstance().time)
             )
         )
     }
 
-    protected fun startDetailActivity() {
+    protected fun startDetailActivity(pokemonId: Int) {
         val context = context
         if (context != null) {
-            startActivity(Intent(context, DetailActivity::class.java))
+            startActivity(DetailActivity.newIntent(context, pokemonId))
         }
     }
 
