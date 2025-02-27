@@ -12,6 +12,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import coil3.load
+import com.sdhong.pokemonapp.R
 import com.sdhong.pokemonapp.databinding.ActivityDetailBinding
 import com.sdhong.pokemonapp.viewmodel.DetailViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -42,8 +43,15 @@ class DetailActivity : AppCompatActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.pokemonDetail.collectLatest {
-                    binding.imageViewPokemon.load(it.imgUrl)
                     binding.textViewPokemonName.text = it.name
+                    binding.imageViewPokemon.load(it.imgUrl)
+                    binding.textViewPokemonDescription.text = getString(
+                        R.string.pokemon_description,
+                        it.weight,
+                        it.height,
+                        it.types.joinToString(),
+                        it.abilities.joinToString()
+                    )
                 }
             }
         }

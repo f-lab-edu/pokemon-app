@@ -3,4 +3,5 @@
     <string name="all_pokemon_tab_title">전체 포켓몬</string>
     <string name="history_tab_title">히스토리</string>
     <string name="last_viewed">최근 본 시간\n%s</string>
+    <string name="pokemon_description">키 : %d\n무게 : %d\n속성: %s\n특성: %s</string>
 </resources>
