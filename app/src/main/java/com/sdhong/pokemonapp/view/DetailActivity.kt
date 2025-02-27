@@ -1,5 +1,7 @@
 package com.sdhong.pokemonapp.view
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -22,6 +24,18 @@ class DetailActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+
+        val detailUrl = intent.getStringExtra(DETAIL_URL)
+    }
+
+    companion object {
+        private const val DETAIL_URL = "DETAIL_URL"
+
+        fun newIntent(context: Context, detailUrl: String): Intent {
+            val intent = Intent(context, DetailActivity::class.java)
+            intent.putExtra(DETAIL_URL, detailUrl)
+            return intent
         }
     }
 }

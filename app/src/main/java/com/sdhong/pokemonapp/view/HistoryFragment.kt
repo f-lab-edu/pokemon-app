@@ -31,6 +31,6 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
         Pokemons.historyPokemons.remove(pokemon)
 
         addPokemonHistory(pokemon)
-        startDetailActivity()
+        startDetailActivity(pokemon.detailUrl)
     }
 }

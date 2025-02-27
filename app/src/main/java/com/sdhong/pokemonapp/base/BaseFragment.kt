@@ -56,15 +56,16 @@ abstract class BaseFragment<VB : ViewBinding>(
                 id = pokemon.id,
                 name = pokemon.name,
                 imgUrl = pokemon.imgUrl,
+                detailUrl = pokemon.detailUrl,
                 lastViewed = Formatter.dateFormat.format(Calendar.getInstance().time)
             )
         )
     }
 
-    protected fun startDetailActivity() {
+    protected fun startDetailActivity(detailUrl: String) {
         val context = context
         if (context != null) {
-            startActivity(Intent(context, DetailActivity::class.java))
+            startActivity(DetailActivity.newIntent(context, detailUrl))
         }
     }
 

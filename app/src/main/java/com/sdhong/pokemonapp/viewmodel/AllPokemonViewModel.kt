@@ -27,7 +27,8 @@ class AllPokemonViewModel : ViewModel() {
             Pokemon.Normal(
                 id = index + 1,
                 name = item.name,
-                imgUrl = imgUrls[index]
+                imgUrl = imgUrls[index],
+                detailUrl = item.url
             )
         }
     }
@@ -41,13 +42,13 @@ class AllPokemonViewModel : ViewModel() {
     fun onPokemonClick(
         position: Int,
         addPokemonHistory: (Pokemon) -> Unit,
-        startDetailActivity: () -> Unit
+        startDetailActivity: (detailUrl: String) -> Unit
     ) {
         val pokemon = _allPokemon.value[position]
         Pokemons.historyPokemons.find { it.id == pokemon.id }?.let {
             Pokemons.historyPokemons.remove(it)
         }
         addPokemonHistory(pokemon)
-        startDetailActivity()
+        startDetailActivity(pokemon.detailUrl)
     }
 }
