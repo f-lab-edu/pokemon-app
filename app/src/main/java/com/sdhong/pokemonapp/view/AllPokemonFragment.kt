@@ -3,14 +3,10 @@ package com.sdhong.pokemonapp.view
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.sdhong.pokemonapp.base.BaseFragment
 import com.sdhong.pokemonapp.databinding.FragmentAllPokemonBinding
+import com.sdhong.pokemonapp.util.collectLatestStateFlow
 import com.sdhong.pokemonapp.viewmodel.AllPokemonViewModel
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 class AllPokemonFragment : BaseFragment<FragmentAllPokemonBinding>(
     bindingFactory = FragmentAllPokemonBinding::inflate
@@ -30,12 +26,8 @@ class AllPokemonFragment : BaseFragment<FragmentAllPokemonBinding>(
     }
 
     private fun setCollectors() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.allPokemon.collectLatest {
-                    allPokemonAdapter.submitList(it)
-                }
-            }
+        collectLatestStateFlow(viewModel.allPokemon) {
+            allPokemonAdapter.submitList(it)
         }
     }
 

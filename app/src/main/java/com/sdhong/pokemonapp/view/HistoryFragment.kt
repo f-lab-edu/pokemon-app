@@ -3,14 +3,10 @@ package com.sdhong.pokemonapp.view
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.sdhong.pokemonapp.base.BaseFragment
 import com.sdhong.pokemonapp.databinding.FragmentHistoryBinding
+import com.sdhong.pokemonapp.util.collectLatestStateFlow
 import com.sdhong.pokemonapp.viewmodel.HistoryViewModel
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
     bindingFactory = FragmentHistoryBinding::inflate
@@ -28,12 +24,12 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
         historyAdapter.setOnClick(::onPokemonClick)
         historyAdapter.setOnCheckboxClick(::onPokemonClick)
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.historyPokemons.collectLatest {
-                    historyAdapter.submitList(it)
-                }
-            }
+        setCollectors()
+    }
+
+    private fun setCollectors() {
+        collectLatestStateFlow(viewModel.historyPokemons) {
+            historyAdapter.submitList(it)
         }
     }
 
