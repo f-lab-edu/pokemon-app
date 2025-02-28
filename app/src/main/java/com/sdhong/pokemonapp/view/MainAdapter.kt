@@ -22,9 +22,14 @@ class MainAdapter : ListAdapter<Pokemon, BaseViewHolder<Pokemon>>(
 ) {
 
     private lateinit var onClick: (position: Int) -> Unit
+    private lateinit var onCheckboxClick: (position: Int) -> Unit
 
     fun setOnClick(onClick: (position: Int) -> Unit) {
         this.onClick = onClick
+    }
+
+    fun setOnCheckboxClick(onCheckboxClick: (position: Int) -> Unit) {
+        this.onCheckboxClick = onCheckboxClick
     }
 
     override fun getItemViewType(position: Int): Int = getItem(position).viewType
@@ -49,7 +54,8 @@ class MainAdapter : ListAdapter<Pokemon, BaseViewHolder<Pokemon>>(
                     parent,
                     false
                 ),
-                onClick
+                onClick,
+                onCheckboxClick
             ) as BaseViewHolder<Pokemon>
         }
     }

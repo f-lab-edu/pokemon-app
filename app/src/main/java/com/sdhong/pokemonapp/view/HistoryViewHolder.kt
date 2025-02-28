@@ -1,5 +1,6 @@
 package com.sdhong.pokemonapp.view
 
+import android.view.View
 import coil3.load
 import com.sdhong.pokemonapp.R
 import com.sdhong.pokemonapp.base.BaseViewHolder
@@ -8,12 +9,16 @@ import com.sdhong.pokemonapp.local.model.Pokemon
 
 class HistoryViewHolder(
     private val binding: ItemPokemonHistoryBinding,
-    private val onClick: (position: Int) -> Unit
+    private val onClick: (position: Int) -> Unit,
+    private val onCheckboxClick: (position: Int) -> Unit
 ) : BaseViewHolder<Pokemon.History>(binding.root) {
 
     init {
         binding.root.setOnClickListener {
             onClick(absoluteAdapterPosition)
+        }
+        binding.checkBoxPokemonHistory.setOnClickListener {
+            onCheckboxClick(absoluteAdapterPosition)
         }
     }
 
@@ -22,6 +27,10 @@ class HistoryViewHolder(
         binding.textViewPokemonHistory.text = item.name
         binding.textViewLastViewed.run {
             text = context.getString(R.string.last_viewed, item.lastViewed)
+        }
+        binding.checkBoxPokemonHistory.run {
+            visibility = if (item.isDeleteMode) View.VISIBLE else View.GONE
+            isChecked = item.isChecked
         }
     }
 }
