@@ -1,6 +1,5 @@
 package com.sdhong.pokemonapp.base
 
-import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,9 +9,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.sdhong.pokemonapp.GridSpacingItemDecoration
-import com.sdhong.pokemonapp.common.Formatter
-import com.sdhong.pokemonapp.local.Pokemons
-import com.sdhong.pokemonapp.local.model.Pokemon
 import com.sdhong.pokemonapp.view.DetailActivity
 
 abstract class BaseFragment<VB : ViewBinding>(
@@ -46,19 +42,6 @@ abstract class BaseFragment<VB : ViewBinding>(
                 )
             )
         }
-    }
-
-    protected fun addPokemonHistory(pokemon: Pokemon) {
-        Pokemons.historyPokemons.add(
-            0,
-            Pokemon.History(
-                uid = pokemon.uid,
-                name = pokemon.name,
-                imgUrl = pokemon.imgUrl,
-                detailUrl = pokemon.detailUrl,
-                lastViewed = Formatter.dateFormat.format(Calendar.getInstance().time)
-            )
-        )
     }
 
     protected fun startDetailActivity(pokemonId: Int) {

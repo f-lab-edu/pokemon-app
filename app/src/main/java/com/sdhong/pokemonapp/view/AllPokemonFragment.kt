@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 class AllPokemonFragment : BaseFragment<FragmentAllPokemonBinding>(
     bindingFactory = FragmentAllPokemonBinding::inflate
 ) {
-    private val viewModel: AllPokemonViewModel by viewModels()
+    private val viewModel: AllPokemonViewModel by viewModels { AllPokemonViewModel.Factory }
     private val allPokemonAdapter = MainAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -31,7 +31,7 @@ class AllPokemonFragment : BaseFragment<FragmentAllPokemonBinding>(
 
     private fun setCollectors() {
         viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.allPokemon.collectLatest {
                     allPokemonAdapter.submitList(it)
                 }
@@ -42,7 +42,6 @@ class AllPokemonFragment : BaseFragment<FragmentAllPokemonBinding>(
     private fun onPokemonClick(position: Int) {
         viewModel.onPokemonClick(
             position = position,
-            addPokemonHistory = ::addPokemonHistory,
             startDetailActivity = ::startDetailActivity
         )
     }
