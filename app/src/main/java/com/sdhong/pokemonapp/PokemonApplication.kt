@@ -4,5 +4,7 @@ import android.app.Application
 import com.sdhong.pokemonapp.local.repository.HistoryRepository
 
 class PokemonApplication : Application() {
-    val historyRepository: HistoryRepository = HistoryRepository
+    val historyRepository: HistoryRepository by lazy {
+        HistoryRepository
+    }
 }
