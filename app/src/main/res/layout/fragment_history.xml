@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:layout_marginEnd="16dp"
-        android:text="@string/pokemon_history_edit_button" />
+        android:text="@string/pokemon_history_button_edit" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewHistory"
