@@ -7,13 +7,18 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import com.sdhong.pokemonapp.PokemonApplication
 import com.sdhong.pokemonapp.local.model.Pokemon
 import com.sdhong.pokemonapp.local.repository.HistoryRepository
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 class HistoryViewModel(
     private val historyRepository: HistoryRepository
 ) : ViewModel() {
 
     val historyPokemons: StateFlow<List<Pokemon.History>> = historyRepository.historyPokemons
+
+    private val _isDeleteMode = MutableStateFlow(false)
+    val isDeleteMode = _isDeleteMode.asStateFlow()
 
     fun onPokemonClick(
         position: Int,
@@ -29,6 +34,16 @@ class HistoryViewModel(
 
     private fun getPokemonId(url: String): Int {
         return url.split("/")[6].toInt()
+    }
+
+    fun toggleDeleteMode() {
+        _isDeleteMode.value = !_isDeleteMode.value
+        historyRepository.toggleDeleteMode(_isDeleteMode.value)
+    }
+
+    fun onCheckboxClick(position: Int) {
+        val pokemon = historyPokemons.value[position]
+        historyRepository.updateCheckbox(pokemon)
     }
 
     companion object {

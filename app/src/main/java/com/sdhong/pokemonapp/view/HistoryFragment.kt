@@ -3,6 +3,7 @@ package com.sdhong.pokemonapp.view
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import com.sdhong.pokemonapp.R
 import com.sdhong.pokemonapp.base.BaseFragment
 import com.sdhong.pokemonapp.databinding.FragmentHistoryBinding
 import com.sdhong.pokemonapp.util.collectLatestStateFlow
@@ -22,14 +23,25 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
         setUpRecyclerView(binding?.recyclerViewHistory)
 
         historyAdapter.setOnClick(::onPokemonClick)
-        historyAdapter.setOnCheckboxClick(::onPokemonClick)
+        historyAdapter.setOnCheckboxClick(::onCheckboxClick)
 
         setCollectors()
+
+        binding?.buttonEditHistory?.setOnClickListener {
+            viewModel.toggleDeleteMode()
+        }
     }
 
     private fun setCollectors() {
         collectLatestStateFlow(viewModel.historyPokemons) {
             historyAdapter.submitList(it)
+        }
+
+        collectLatestStateFlow(viewModel.isDeleteMode) { isDeleteMode ->
+            binding?.buttonEditHistory?.text = getString(
+                if (isDeleteMode) R.string.pokemon_history_button_delete
+                else R.string.pokemon_history_button_edit
+            )
         }
     }
 
@@ -38,5 +50,9 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
             position = position,
             startDetailActivity = ::startDetailActivity
         )
+    }
+
+    private fun onCheckboxClick(position: Int) {
+        viewModel.onCheckboxClick(position)
     }
 }

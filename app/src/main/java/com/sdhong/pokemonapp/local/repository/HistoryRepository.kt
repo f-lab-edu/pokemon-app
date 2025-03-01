@@ -32,4 +32,25 @@ object HistoryRepository {
             )
         }
     }
+
+    fun toggleDeleteMode(isDeleteMode: Boolean) {
+        if (!isDeleteMode) {
+            _historyPokemons.value = _historyPokemons.value.toMutableList().also { list ->
+                list.removeIf { it.isChecked }
+            }
+        }
+        _historyPokemons.value = _historyPokemons.value.map {
+            it.copy(isDeleteMode = isDeleteMode)
+        }
+    }
+
+    fun updateCheckbox(pokemon: Pokemon.History) {
+        _historyPokemons.value = _historyPokemons.value.map {
+            if (it.uid == pokemon.uid) {
+                it.copy(isChecked = !it.isChecked)
+            } else {
+                it
+            }
+        }
+    }
 }
