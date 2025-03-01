@@ -18,17 +18,14 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding?.recyclerViewHistory?.adapter = historyAdapter
-
-        setUpRecyclerView(binding?.recyclerViewHistory)
+        binding.recyclerViewHistory.adapter = historyAdapter
+        binding.buttonEditHistory.setOnClickListener {
+            viewModel.toggleDeleteMode()
+        }
 
         historyAdapter.setOnClick(::onPokemonClick)
 
         setCollectors()
-
-        binding?.buttonEditHistory?.setOnClickListener {
-            viewModel.toggleDeleteMode()
-        }
     }
 
     private fun setCollectors() {
@@ -37,7 +34,7 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
         }
 
         collectLatestStateFlow(viewModel.isDeleteMode) { isDeleteMode ->
-            binding?.buttonEditHistory?.text = getString(
+            binding.buttonEditHistory.text = getString(
                 if (isDeleteMode) R.string.pokemon_history_button_delete
                 else R.string.pokemon_history_button_edit
             )
