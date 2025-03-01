@@ -46,6 +46,11 @@ class HistoryViewModel(
         historyRepository.updateCheckbox(pokemon)
     }
 
+    fun initHistoryPokemons() {
+        _isDeleteMode.value = false
+        historyRepository.initHistoryPokemons()
+    }
+
     companion object {
 
         val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {

@@ -12,6 +12,12 @@ object HistoryRepository {
     private val _historyPokemons = MutableStateFlow<List<Pokemon.History>>(emptyList())
     val historyPokemons: StateFlow<List<Pokemon.History>> = _historyPokemons.asStateFlow()
 
+    fun initHistoryPokemons() {
+        _historyPokemons.value = _historyPokemons.value.map {
+            it.copy(isDeleteMode = false, isChecked = false)
+        }
+    }
+
     fun removePokemonHistory(pokemon: Pokemon) {
         _historyPokemons.value = _historyPokemons.value.toMutableList().also {
             it.remove(pokemon)

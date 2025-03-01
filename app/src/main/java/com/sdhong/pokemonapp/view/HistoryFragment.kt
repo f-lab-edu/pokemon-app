@@ -55,4 +55,9 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
     private fun onCheckboxClick(position: Int) {
         viewModel.onCheckboxClick(position)
     }
+
+    override fun onPause() {
+        viewModel.initHistoryPokemons()
+        super.onPause()
+    }
 }
