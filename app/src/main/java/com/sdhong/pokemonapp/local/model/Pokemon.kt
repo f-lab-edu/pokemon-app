@@ -21,7 +21,9 @@ sealed interface Pokemon {
         override val imgUrl: String,
         override val detailUrl: String,
         override val viewType: Int = TYPE_HISTORY,
-        val lastViewed: String
+        val lastViewed: String,
+        val isDeleteMode: Boolean = false,
+        val isChecked: Boolean = false
     ) : Pokemon
 
     companion object {

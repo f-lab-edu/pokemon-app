@@ -4,4 +4,6 @@
     <string name="history_tab_title">히스토리</string>
     <string name="last_viewed">최근 본 시간\n%s</string>
     <string name="pokemon_description">키 : %d\n무게 : %d\n속성: %s\n특성: %s</string>
+    <string name="pokemon_history_button_edit">편집</string>
+    <string name="pokemon_history_button_delete">제거</string>
 </resources>

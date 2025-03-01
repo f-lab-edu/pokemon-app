@@ -1,5 +1,6 @@
 package com.sdhong.pokemonapp.view
 
+import android.view.View
 import coil3.load
 import com.sdhong.pokemonapp.R
 import com.sdhong.pokemonapp.base.BaseViewHolder
@@ -22,6 +23,10 @@ class HistoryViewHolder(
         binding.textViewPokemonHistory.text = item.name
         binding.textViewLastViewed.run {
             text = context.getString(R.string.last_viewed, item.lastViewed)
+        }
+        binding.checkBoxPokemonHistory.run {
+            visibility = if (item.isDeleteMode) View.VISIBLE else View.GONE
+            isChecked = item.isChecked
         }
     }
 }

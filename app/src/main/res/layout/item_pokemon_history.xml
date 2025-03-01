@@ -16,39 +16,58 @@
         app:strokeColor="@color/black"
         app:strokeWidth="2dp">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/imageViewPokemonHistory"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_weight="2"
+                app:layout_constraintBottom_toTopOf="@id/textViewPokemonHistory"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_weight="2"
                 tools:src="@drawable/ic_pikachu" />
 
             <TextView
                 android:id="@+id/textViewPokemonHistory"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_weight="1"
                 android:background="?attr/colorPrimaryContainer"
                 android:gravity="center"
                 android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@id/textViewLastViewed"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imageViewPokemonHistory"
+                app:layout_constraintVertical_weight="1"
                 tools:text="pokemon name" />
 
             <TextView
                 android:id="@+id/textViewLastViewed"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:background="?attr/colorPrimaryContainer"
                 android:gravity="center"
                 android:textSize="16sp"
-                tools:text="Last viewed: 2021-01-01 00:00:00" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textViewPokemonHistory"
+                app:layout_constraintVertical_weight="2"
+                tools:text="최근 본 시간\n2025. 2. 28 오후 8:19:56" />
 
-        </LinearLayout>
+            <CheckBox
+                android:id="@+id/checkBoxPokemonHistory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
 
