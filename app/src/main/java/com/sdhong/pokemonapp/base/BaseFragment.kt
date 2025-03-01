@@ -12,19 +12,20 @@ abstract class BaseFragment<VB : ViewBinding>(
     private val bindingFactory: (inflater: LayoutInflater, parent: ViewGroup?, attachToParent: Boolean) -> VB
 ) : Fragment() {
 
-    protected var binding: VB? = null
+    private var _binding: VB? = null
+    protected val binding get() = _binding!!
 
     final override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = bindingFactory(inflater, container, false)
-        return binding?.root
+    ): View {
+        _binding = bindingFactory(inflater, container, false)
+        return binding.root
     }
 
     final override fun onDestroyView() {
-        binding = null
+        _binding = null
         super.onDestroyView()
     }
 
