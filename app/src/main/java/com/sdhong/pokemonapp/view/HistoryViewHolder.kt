@@ -9,16 +9,12 @@ import com.sdhong.pokemonapp.local.model.Pokemon
 
 class HistoryViewHolder(
     private val binding: ItemPokemonHistoryBinding,
-    private val onClick: (position: Int) -> Unit,
-    private val onCheckboxClick: (position: Int) -> Unit
+    private val onClick: (position: Int) -> Unit
 ) : BaseViewHolder<Pokemon.History>(binding.root) {
 
     init {
         binding.root.setOnClickListener {
             onClick(absoluteAdapterPosition)
-        }
-        binding.checkBoxPokemonHistory.setOnClickListener {
-            onCheckboxClick(absoluteAdapterPosition)
         }
     }
 

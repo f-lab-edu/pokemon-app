@@ -23,7 +23,6 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
         setUpRecyclerView(binding?.recyclerViewHistory)
 
         historyAdapter.setOnClick(::onPokemonClick)
-        historyAdapter.setOnCheckboxClick(::onCheckboxClick)
 
         setCollectors()
 
@@ -50,10 +49,6 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
             position = position,
             startDetailActivity = ::startDetailActivity
         )
-    }
-
-    private fun onCheckboxClick(position: Int) {
-        viewModel.onCheckboxClick(position)
     }
 
     override fun onPause() {

@@ -26,10 +26,14 @@ class HistoryViewModel(
     ) {
         val pokemon = historyPokemons.value[position]
 
-        startDetailActivity(getPokemonId(pokemon.detailUrl))
+        if (_isDeleteMode.value) {
+            historyRepository.updateCheckbox(pokemon)
+        } else {
+            startDetailActivity(getPokemonId(pokemon.detailUrl))
 
-        historyRepository.removePokemonHistory(pokemon)
-        historyRepository.addPokemonHistory(pokemon)
+            historyRepository.removePokemonHistory(pokemon)
+            historyRepository.addPokemonHistory(pokemon)
+        }
     }
 
     private fun getPokemonId(url: String): Int {
@@ -39,11 +43,6 @@ class HistoryViewModel(
     fun toggleDeleteMode() {
         _isDeleteMode.value = !_isDeleteMode.value
         historyRepository.toggleDeleteMode(_isDeleteMode.value)
-    }
-
-    fun onCheckboxClick(position: Int) {
-        val pokemon = historyPokemons.value[position]
-        historyRepository.updateCheckbox(pokemon)
     }
 
     fun initHistoryPokemons() {
