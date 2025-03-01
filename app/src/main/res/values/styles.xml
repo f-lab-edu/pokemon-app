@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="TextViewStyleLight" parent="android:Widget.TextView">
         <item name="android:textColor">@color/black</item>
     </style>
