@@ -1,4 +1,4 @@
-package com.sdhong.pokemonapp;
+package com.sdhong.pokemonapp.view;
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
