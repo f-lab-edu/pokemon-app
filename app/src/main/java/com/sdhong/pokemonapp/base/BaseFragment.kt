@@ -5,10 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import com.sdhong.pokemonapp.GridSpacingItemDecoration
 import com.sdhong.pokemonapp.view.DetailActivity
 
 abstract class BaseFragment<VB : ViewBinding>(
@@ -31,28 +28,10 @@ abstract class BaseFragment<VB : ViewBinding>(
         super.onDestroyView()
     }
 
-    protected fun setUpRecyclerView(recyclerView: RecyclerView?) {
-        recyclerView?.run {
-            layoutManager = GridLayoutManager(context, SPAN_COUNT)
-            addItemDecoration(
-                GridSpacingItemDecoration(
-                    spanCount = SPAN_COUNT,
-                    spacing = GRID_SPACING,
-                    includeEdge = true
-                )
-            )
-        }
-    }
-
     protected fun startDetailActivity(pokemonId: Int) {
         val context = context
         if (context != null) {
             startActivity(DetailActivity.newIntent(context, pokemonId))
         }
-    }
-
-    companion object {
-        private const val SPAN_COUNT = 2
-        private const val GRID_SPACING = 50
     }
 }

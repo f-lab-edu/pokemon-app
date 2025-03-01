@@ -19,16 +19,13 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
         super.onViewCreated(view, savedInstanceState)
 
         binding?.recyclerViewHistory?.adapter = historyAdapter
-
-        setUpRecyclerView(binding?.recyclerViewHistory)
+        binding?.buttonEditHistory?.setOnClickListener {
+            viewModel.toggleDeleteMode()
+        }
 
         historyAdapter.setOnClick(::onPokemonClick)
 
         setCollectors()
-
-        binding?.buttonEditHistory?.setOnClickListener {
-            viewModel.toggleDeleteMode()
-        }
     }
 
     private fun setCollectors() {

@@ -18,7 +18,6 @@ class AllPokemonFragment : BaseFragment<FragmentAllPokemonBinding>(
         super.onViewCreated(view, savedInstanceState)
 
         binding?.recyclerViewAllPokemon?.adapter = allPokemonAdapter
-        setUpRecyclerView(binding?.recyclerViewAllPokemon)
 
         allPokemonAdapter.setOnClick(::onPokemonClick)
 
