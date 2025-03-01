@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUpView() {
         val fragments = listOf(AllPokemonFragment(), HistoryFragment())
-        binding.viewPager.adapter = ViewPagerAdapter(fragments, this)
+        binding.viewPager.adapter = ViewPagerAdapter(fragments, supportFragmentManager, lifecycle)
 
         val mainTabs = MainTab.entries.toTypedArray()
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
