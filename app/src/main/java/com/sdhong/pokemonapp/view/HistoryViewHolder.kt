@@ -21,9 +21,9 @@ class HistoryViewHolder(
     override fun bind(item: Pokemon.History) {
         binding.imageViewPokemonHistory.load(item.imgUrl)
         binding.textViewPokemonHistory.text = item.name
-        binding.textViewLastViewed.run {
-            text = context.getString(R.string.last_viewed, item.lastViewed)
-        }
+        binding.textViewLastViewed.text =
+            itemView.context.getString(R.string.last_viewed, item.lastViewed)
+
         binding.checkBoxPokemonHistory.run {
             visibility = if (item.isDeleteMode) View.VISIBLE else View.GONE
             isChecked = item.isChecked
