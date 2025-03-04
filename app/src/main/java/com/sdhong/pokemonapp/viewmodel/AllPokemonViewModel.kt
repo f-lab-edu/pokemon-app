@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.sdhong.pokemonapp.common.Formatter
 import com.sdhong.pokemonapp.local.dao.HistoryDao
 import com.sdhong.pokemonapp.local.model.Pokemon
-import com.sdhong.pokemonapp.local.repository.HistoryRepository
 import com.sdhong.pokemonapp.remote.api.PokemonApi
 import com.sdhong.pokemonapp.remote.model.PokemonListResponse.PokemonListItem
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,7 +19,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AllPokemonViewModel @Inject constructor(
-    private val historyRepository: HistoryRepository,
     private val pokemonApi: PokemonApi,
     private val historyDao: HistoryDao
 ) : ViewModel() {
