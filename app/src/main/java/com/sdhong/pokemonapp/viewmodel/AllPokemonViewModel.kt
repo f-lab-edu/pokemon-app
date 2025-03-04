@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sdhong.pokemonapp.local.model.Pokemon
 import com.sdhong.pokemonapp.local.repository.HistoryRepository
+import com.sdhong.pokemonapp.remote.api.PokemonApi
 import com.sdhong.pokemonapp.remote.model.PokemonListResponse.PokemonListItem
-import com.sdhong.pokemonapp.remote.module.PokemonApiModule.pokemonApi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
@@ -17,7 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AllPokemonViewModel @Inject constructor(
-    private val historyRepository: HistoryRepository
+    private val historyRepository: HistoryRepository,
+    private val pokemonApi: PokemonApi
 ) : ViewModel() {
 
     private val _allPokemon = MutableStateFlow<List<Pokemon.Normal>>(emptyList())

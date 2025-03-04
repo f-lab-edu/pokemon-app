@@ -4,13 +4,17 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sdhong.pokemonapp.local.model.PokemonDetail
-import com.sdhong.pokemonapp.remote.module.PokemonApiModule.pokemonApi
+import com.sdhong.pokemonapp.remote.api.PokemonApi
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DetailViewModel(
-    savedStateHandle: SavedStateHandle
+@HiltViewModel
+class DetailViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
+    private val pokemonApi: PokemonApi
 ) : ViewModel() {
 
     private val pokemonId = savedStateHandle["POKEMON_ID"] ?: 0

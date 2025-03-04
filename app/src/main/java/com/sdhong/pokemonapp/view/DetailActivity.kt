@@ -10,7 +10,9 @@ import com.sdhong.pokemonapp.base.BaseActivity
 import com.sdhong.pokemonapp.databinding.ActivityDetailBinding
 import com.sdhong.pokemonapp.util.collectLatestStateFlow
 import com.sdhong.pokemonapp.viewmodel.DetailViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DetailActivity : BaseActivity<ActivityDetailBinding>(
     bindingFactory = ActivityDetailBinding::inflate
 ) {
