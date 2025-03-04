@@ -1,5 +1,8 @@
 package com.sdhong.pokemonapp.local.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
 sealed interface Pokemon {
     val uid: Int
     val name: String
@@ -15,8 +18,9 @@ sealed interface Pokemon {
         override val viewType: Int = TYPE_NORMAL
     ) : Pokemon
 
+    @Entity
     data class History(
-        override val uid: Int,
+        @PrimaryKey override val uid: Int,
         override val name: String,
         override val imgUrl: String,
         override val detailUrl: String,
