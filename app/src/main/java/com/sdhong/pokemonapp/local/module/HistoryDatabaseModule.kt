@@ -2,6 +2,7 @@ package com.sdhong.pokemonapp.local.module
 
 import android.content.Context
 import androidx.room.Room
+import com.sdhong.pokemonapp.local.dao.HistoryDao
 import com.sdhong.pokemonapp.local.database.HistoryDatabase
 import dagger.Module
 import dagger.Provides
@@ -26,5 +27,5 @@ object HistoryDatabaseModule {
 
     @Singleton
     @Provides
-    fun provideHistoryDao(database: HistoryDatabase) = database.historyDao()
+    fun provideHistoryDao(database: HistoryDatabase): HistoryDao = database.historyDao()
 }

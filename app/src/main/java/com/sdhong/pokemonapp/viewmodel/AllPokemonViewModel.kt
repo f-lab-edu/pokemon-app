@@ -1,7 +1,10 @@
 package com.sdhong.pokemonapp.viewmodel
 
+import android.icu.util.Calendar
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sdhong.pokemonapp.common.Formatter
+import com.sdhong.pokemonapp.local.dao.HistoryDao
 import com.sdhong.pokemonapp.local.model.Pokemon
 import com.sdhong.pokemonapp.local.repository.HistoryRepository
 import com.sdhong.pokemonapp.remote.api.PokemonApi
@@ -18,7 +21,8 @@ import javax.inject.Inject
 @HiltViewModel
 class AllPokemonViewModel @Inject constructor(
     private val historyRepository: HistoryRepository,
-    private val pokemonApi: PokemonApi
+    private val pokemonApi: PokemonApi,
+    private val historyDao: HistoryDao
 ) : ViewModel() {
 
     private val _allPokemon = MutableStateFlow<List<Pokemon.Normal>>(emptyList())
@@ -54,10 +58,17 @@ class AllPokemonViewModel @Inject constructor(
         val pokemon = _allPokemon.value[position]
         startDetailActivity(getPokemonId(pokemon.detailUrl))
 
-        historyRepository.historyPokemons.value.find { it.uid == pokemon.uid }?.let {
-            historyRepository.removePokemonHistory(it)
+        viewModelScope.launch {
+            historyDao.insert(
+                Pokemon.History(
+                    uid = pokemon.uid,
+                    name = pokemon.name,
+                    imgUrl = pokemon.imgUrl,
+                    detailUrl = pokemon.detailUrl,
+                    lastViewed = Formatter.dateFormat.format(Calendar.getInstance().time)
+                )
+            )
         }
-        historyRepository.addPokemonHistory(pokemon)
     }
 
     private fun getPokemonId(url: String): Int {
