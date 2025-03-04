@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface HistoryDao {
 
-    @Query("SELECT * FROM History")
+    @Query("SELECT * FROM History ORDER BY lastViewed DESC")
     fun getAll(): Flow<List<Pokemon.History>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
