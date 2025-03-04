@@ -38,7 +38,9 @@ class HistoryViewModel @Inject constructor(
         val pokemon = historyPokemons.value[position]
 
         if (_isDeleteMode.value) {
-            historyRepository.updateCheckbox(pokemon)
+            viewModelScope.launch {
+                historyDao.update(pokemon.copy(isChecked = !pokemon.isChecked))
+            }
         } else {
             startDetailActivity(getPokemonId(pokemon.detailUrl))
 
@@ -57,8 +59,14 @@ class HistoryViewModel @Inject constructor(
     }
 
     fun toggleDeleteMode() {
-        _isDeleteMode.value = !_isDeleteMode.value
-        historyRepository.toggleDeleteMode(_isDeleteMode.value)
+        viewModelScope.launch {
+            _isDeleteMode.value = !_isDeleteMode.value
+
+            if (!_isDeleteMode.value) {
+                historyDao.deleteChecked()
+            }
+            historyDao.updateDeleteMode(_isDeleteMode.value)
+        }
     }
 
     fun initHistoryPokemons() {
