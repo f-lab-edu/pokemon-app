@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.sdhong.pokemonapp.common.Formatter
 import com.sdhong.pokemonapp.local.dao.HistoryDao
 import com.sdhong.pokemonapp.local.model.Pokemon
-import com.sdhong.pokemonapp.local.repository.HistoryRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -18,7 +17,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HistoryViewModel @Inject constructor(
-    private val historyRepository: HistoryRepository,
     private val historyDao: HistoryDao
 ) : ViewModel() {
 
@@ -67,10 +65,5 @@ class HistoryViewModel @Inject constructor(
             }
             historyDao.updateDeleteMode(_isDeleteMode.value)
         }
-    }
-
-    fun initHistoryPokemons() {
-        _isDeleteMode.value = false
-        historyRepository.initHistoryPokemons()
     }
 }

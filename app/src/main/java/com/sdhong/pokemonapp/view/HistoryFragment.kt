@@ -49,9 +49,4 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
             startDetailActivity = ::startDetailActivity
         )
     }
-
-    override fun onPause() {
-        viewModel.initHistoryPokemons()
-        super.onPause()
-    }
 }
