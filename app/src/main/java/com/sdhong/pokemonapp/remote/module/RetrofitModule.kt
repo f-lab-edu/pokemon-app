@@ -1,4 +1,4 @@
-package com.sdhong.pokemonapp.remote
+package com.sdhong.pokemonapp.remote.module
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
