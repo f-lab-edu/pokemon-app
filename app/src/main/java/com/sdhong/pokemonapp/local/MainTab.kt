@@ -1,4 +1,4 @@
-package com.sdhong.pokemonapp.model
+package com.sdhong.pokemonapp.local
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes

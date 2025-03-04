@@ -2,35 +2,54 @@ package com.sdhong.pokemonapp.view
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
+import com.sdhong.pokemonapp.R
 import com.sdhong.pokemonapp.base.BaseFragment
 import com.sdhong.pokemonapp.databinding.FragmentHistoryBinding
-import com.sdhong.pokemonapp.model.Pokemons
+import com.sdhong.pokemonapp.util.collectLatestStateFlow
+import com.sdhong.pokemonapp.viewmodel.HistoryViewModel
 
 class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
     bindingFactory = FragmentHistoryBinding::inflate
 ) {
+    private val viewModel: HistoryViewModel by viewModels { HistoryViewModel.Factory }
     private val historyAdapter = MainAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding?.recyclerViewHistory?.adapter = historyAdapter
-
-        setUpRecyclerView(binding?.recyclerViewHistory)
+        binding.recyclerViewHistory.adapter = historyAdapter
+        binding.buttonEditHistory.setOnClickListener {
+            viewModel.toggleDeleteMode()
+        }
 
         historyAdapter.setOnClick(::onPokemonClick)
+
+        setCollectors()
     }
 
-    override fun onResume() {
-        super.onResume()
-        historyAdapter.submitList(Pokemons.seenPokemons.toList())
+    private fun setCollectors() {
+        collectLatestStateFlow(viewModel.historyPokemons) {
+            historyAdapter.submitList(it)
+        }
+
+        collectLatestStateFlow(viewModel.isDeleteMode) { isDeleteMode ->
+            binding.buttonEditHistory.text = getString(
+                if (isDeleteMode) R.string.pokemon_history_button_delete
+                else R.string.pokemon_history_button_edit
+            )
+        }
     }
 
     private fun onPokemonClick(position: Int) {
-        val pokemon = Pokemons.seenPokemons[position]
-        Pokemons.seenPokemons.remove(pokemon)
+        viewModel.onPokemonClick(
+            position = position,
+            startDetailActivity = ::startDetailActivity
+        )
+    }
 
-        addPokemonSeen(pokemon)
-        startDetailActivity()
+    override fun onPause() {
+        viewModel.initHistoryPokemons()
+        super.onPause()
     }
 }
