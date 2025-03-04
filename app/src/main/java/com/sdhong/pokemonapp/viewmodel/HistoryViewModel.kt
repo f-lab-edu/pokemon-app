@@ -1,17 +1,16 @@
 package com.sdhong.pokemonapp.viewmodel
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
-import androidx.lifecycle.viewmodel.CreationExtras
-import com.sdhong.pokemonapp.PokemonApplication
 import com.sdhong.pokemonapp.local.model.Pokemon
 import com.sdhong.pokemonapp.local.repository.HistoryRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import javax.inject.Inject
 
-class HistoryViewModel(
+@HiltViewModel
+class HistoryViewModel @Inject constructor(
     private val historyRepository: HistoryRepository
 ) : ViewModel() {
 
@@ -48,22 +47,5 @@ class HistoryViewModel(
     fun initHistoryPokemons() {
         _isDeleteMode.value = false
         historyRepository.initHistoryPokemons()
-    }
-
-    companion object {
-
-        val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel> create(
-                modelClass: Class<T>,
-                extras: CreationExtras
-            ): T {
-                val application = checkNotNull(extras[APPLICATION_KEY])
-
-                return HistoryViewModel(
-                    (application as PokemonApplication).historyRepository
-                ) as T
-            }
-        }
     }
 }

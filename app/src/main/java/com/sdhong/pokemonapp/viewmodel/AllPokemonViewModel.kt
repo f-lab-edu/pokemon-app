@@ -1,24 +1,24 @@
 package com.sdhong.pokemonapp.viewmodel
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.CreationExtras
-import com.sdhong.pokemonapp.PokemonApplication
 import com.sdhong.pokemonapp.local.model.Pokemon
 import com.sdhong.pokemonapp.local.repository.HistoryRepository
+import com.sdhong.pokemonapp.remote.api.PokemonApi
 import com.sdhong.pokemonapp.remote.model.PokemonListResponse.PokemonListItem
-import com.sdhong.pokemonapp.remote.module.PokemonApiModule.pokemonApi
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AllPokemonViewModel(
-    private val historyRepository: HistoryRepository
+@HiltViewModel
+class AllPokemonViewModel @Inject constructor(
+    private val historyRepository: HistoryRepository,
+    private val pokemonApi: PokemonApi
 ) : ViewModel() {
 
     private val _allPokemon = MutableStateFlow<List<Pokemon.Normal>>(emptyList())
@@ -62,22 +62,5 @@ class AllPokemonViewModel(
 
     private fun getPokemonId(url: String): Int {
         return url.split("/")[6].toInt()
-    }
-
-    companion object {
-
-        val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel> create(
-                modelClass: Class<T>,
-                extras: CreationExtras
-            ): T {
-                val application = checkNotNull(extras[APPLICATION_KEY])
-
-                return AllPokemonViewModel(
-                    (application as PokemonApplication).historyRepository
-                ) as T
-            }
-        }
     }
 }

@@ -8,11 +8,13 @@ import com.sdhong.pokemonapp.base.BaseFragment
 import com.sdhong.pokemonapp.databinding.FragmentHistoryBinding
 import com.sdhong.pokemonapp.util.collectLatestStateFlow
 import com.sdhong.pokemonapp.viewmodel.HistoryViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
     bindingFactory = FragmentHistoryBinding::inflate
 ) {
-    private val viewModel: HistoryViewModel by viewModels { HistoryViewModel.Factory }
+    private val viewModel: HistoryViewModel by viewModels()
     private val historyAdapter = MainAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
