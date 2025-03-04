@@ -7,11 +7,13 @@ import com.sdhong.pokemonapp.base.BaseFragment
 import com.sdhong.pokemonapp.databinding.FragmentAllPokemonBinding
 import com.sdhong.pokemonapp.util.collectLatestStateFlow
 import com.sdhong.pokemonapp.viewmodel.AllPokemonViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AllPokemonFragment : BaseFragment<FragmentAllPokemonBinding>(
     bindingFactory = FragmentAllPokemonBinding::inflate
 ) {
-    private val viewModel: AllPokemonViewModel by viewModels { AllPokemonViewModel.Factory }
+    private val viewModel: AllPokemonViewModel by viewModels()
     private val allPokemonAdapter = MainAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
