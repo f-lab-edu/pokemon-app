@@ -25,4 +25,7 @@ interface HistoryDao {
 
     @Query("DELETE FROM History WHERE isChecked = 1")
     suspend fun deleteChecked()
+
+    @Query("DELETE FROM History")
+    suspend fun deleteAll()
 }
