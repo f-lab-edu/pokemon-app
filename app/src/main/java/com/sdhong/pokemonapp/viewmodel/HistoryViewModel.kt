@@ -29,31 +29,18 @@ class HistoryViewModel @Inject constructor(
     private val _isDeleteMode = MutableStateFlow(false)
     val isDeleteMode = _isDeleteMode.asStateFlow()
 
-    fun onPokemonClick(
-        position: Int,
-        startDetailActivity: (pokemonId: Int) -> Unit
-    ) {
-        val pokemon = historyPokemons.value[position]
-
-        if (_isDeleteMode.value) {
-            viewModelScope.launch {
-                historyDao.update(pokemon.copy(isChecked = !pokemon.isChecked))
-            }
-        } else {
-            startDetailActivity(getPokemonId(pokemon.detailUrl))
-
-            viewModelScope.launch {
-                historyDao.insert(
+    fun onPokemonClick(pokemon: Pokemon.History) {
+        viewModelScope.launch {
+            if (_isDeleteMode.value) {
+                historyDao.upsert(pokemon.copy(isChecked = !pokemon.isChecked))
+            } else {
+                historyDao.upsert(
                     pokemon.copy(
                         lastViewed = Formatter.dateFormat.format(Calendar.getInstance().time)
                     )
                 )
             }
         }
-    }
-
-    private fun getPokemonId(url: String): Int {
-        return url.split("/")[6].toInt()
     }
 
     fun toggleDeleteMode() {

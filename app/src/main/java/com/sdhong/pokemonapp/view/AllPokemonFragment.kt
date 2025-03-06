@@ -27,15 +27,14 @@ class AllPokemonFragment : BaseFragment<FragmentAllPokemonBinding>(
     }
 
     private fun setCollectors() {
-        collectLatestStateFlow(viewModel.allPokemon) {
+        viewLifecycleOwner.collectLatestStateFlow(viewModel.allPokemon) {
             allPokemonAdapter.submitList(it)
         }
     }
 
     private fun onPokemonClick(position: Int) {
-        viewModel.onPokemonClick(
-            position = position,
-            startDetailActivity = ::startDetailActivity
-        )
+        val pokemon = viewModel.allPokemon.value[position]
+        viewModel.onPokemonClick(pokemon)
+        startDetailActivity(pokemon)
     }
 }

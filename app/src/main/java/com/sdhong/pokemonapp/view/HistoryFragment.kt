@@ -31,11 +31,11 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
     }
 
     private fun setCollectors() {
-        collectLatestStateFlow(viewModel.historyPokemons) {
+        viewLifecycleOwner.collectLatestStateFlow(viewModel.historyPokemons) {
             historyAdapter.submitList(it)
         }
 
-        collectLatestStateFlow(viewModel.isDeleteMode) { isDeleteMode ->
+        viewLifecycleOwner.collectLatestStateFlow(viewModel.isDeleteMode) { isDeleteMode ->
             binding.buttonEditHistory.text = getString(
                 if (isDeleteMode) R.string.pokemon_history_button_delete
                 else R.string.pokemon_history_button_edit
@@ -44,9 +44,10 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
     }
 
     private fun onPokemonClick(position: Int) {
-        viewModel.onPokemonClick(
-            position = position,
-            startDetailActivity = ::startDetailActivity
-        )
+        val pokemon = viewModel.historyPokemons.value[position]
+        viewModel.onPokemonClick(pokemon)
+        if (!viewModel.isDeleteMode.value) {
+            startDetailActivity(pokemon)
+        }
     }
 }
