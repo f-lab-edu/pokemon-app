@@ -49,13 +49,7 @@ class AllPokemonViewModel @Inject constructor(
         return@async imgUrl
     }
 
-    fun onPokemonClick(
-        position: Int,
-        startDetailActivity: (pokemonId: Int) -> Unit
-    ) {
-        val pokemon = _allPokemon.value[position]
-        startDetailActivity(getPokemonId(pokemon.detailUrl))
-
+    fun onPokemonClick(pokemon: Pokemon.Normal) {
         viewModelScope.launch {
             historyDao.insert(
                 Pokemon.History(
@@ -69,7 +63,5 @@ class AllPokemonViewModel @Inject constructor(
         }
     }
 
-    private fun getPokemonId(url: String): Int {
-        return url.split("/")[6].toInt()
-    }
+    private fun getPokemonId(url: String): Int = url.split("/")[6].toInt()
 }

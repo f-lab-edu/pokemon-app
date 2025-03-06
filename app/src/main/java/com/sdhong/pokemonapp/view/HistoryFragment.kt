@@ -44,9 +44,10 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
     }
 
     private fun onPokemonClick(position: Int) {
-        viewModel.onPokemonClick(
-            position = position,
-            startDetailActivity = ::startDetailActivity
-        )
+        val pokemon = viewModel.historyPokemons.value[position]
+        viewModel.onPokemonClick(pokemon)
+        if (!viewModel.isDeleteMode.value) {
+            startDetailActivity(pokemon)
+        }
     }
 }

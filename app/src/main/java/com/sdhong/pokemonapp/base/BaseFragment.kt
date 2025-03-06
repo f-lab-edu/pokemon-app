@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import com.sdhong.pokemonapp.local.model.Pokemon
 import com.sdhong.pokemonapp.view.DetailActivity
 
 abstract class BaseFragment<VB : ViewBinding>(
@@ -29,7 +30,9 @@ abstract class BaseFragment<VB : ViewBinding>(
         super.onDestroyView()
     }
 
-    protected fun startDetailActivity(pokemonId: Int) {
-        startActivity(DetailActivity.newIntent(requireContext(), pokemonId))
+    protected fun startDetailActivity(pokemon: Pokemon) {
+        startActivity(DetailActivity.newIntent(requireContext(), getPokemonId(pokemon.detailUrl)))
     }
+
+    private fun getPokemonId(url: String): Int = url.split("/")[6].toInt()
 }
