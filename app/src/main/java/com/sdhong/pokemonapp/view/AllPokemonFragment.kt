@@ -27,7 +27,7 @@ class AllPokemonFragment : BaseFragment<FragmentAllPokemonBinding>(
     }
 
     private fun setCollectors() {
-        collectLatestStateFlow(viewModel.allPokemon) {
+        viewLifecycleOwner.collectLatestStateFlow(viewModel.allPokemon) {
             allPokemonAdapter.submitList(it)
         }
     }
