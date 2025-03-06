@@ -30,9 +30,6 @@ abstract class BaseFragment<VB : ViewBinding>(
     }
 
     protected fun startDetailActivity(pokemonId: Int) {
-        val context = context
-        if (context != null) {
-            startActivity(DetailActivity.newIntent(context, pokemonId))
-        }
+        startActivity(DetailActivity.newIntent(requireContext(), pokemonId))
     }
 }
