@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import coil3.load
 import com.sdhong.pokemonapp.R
 import com.sdhong.pokemonapp.base.BaseActivity
+import com.sdhong.pokemonapp.common.IntentExtraKey
 import com.sdhong.pokemonapp.databinding.ActivityDetailBinding
 import com.sdhong.pokemonapp.util.collectLatestStateFlow
 import com.sdhong.pokemonapp.viewmodel.DetailViewModel
@@ -40,11 +41,10 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(
     }
 
     companion object {
-        private const val POKEMON_ID = "POKEMON_ID"
 
         fun newIntent(context: Context, pokemonId: Int): Intent {
             val intent = Intent(context, DetailActivity::class.java)
-            intent.putExtra(POKEMON_ID, pokemonId)
+            intent.putExtra(IntentExtraKey.POKEMON_ID, pokemonId)
             return intent
         }
     }
