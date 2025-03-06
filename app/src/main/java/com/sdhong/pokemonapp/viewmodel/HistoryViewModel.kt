@@ -32,9 +32,9 @@ class HistoryViewModel @Inject constructor(
     fun onPokemonClick(pokemon: Pokemon.History) {
         viewModelScope.launch {
             if (_isDeleteMode.value) {
-                historyDao.update(pokemon.copy(isChecked = !pokemon.isChecked))
+                historyDao.upsert(pokemon.copy(isChecked = !pokemon.isChecked))
             } else {
-                historyDao.insert(
+                historyDao.upsert(
                     pokemon.copy(
                         lastViewed = Formatter.dateFormat.format(Calendar.getInstance().time)
                     )

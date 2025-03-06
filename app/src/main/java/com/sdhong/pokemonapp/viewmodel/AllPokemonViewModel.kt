@@ -51,7 +51,7 @@ class AllPokemonViewModel @Inject constructor(
 
     fun onPokemonClick(pokemon: Pokemon.Normal) {
         viewModelScope.launch {
-            historyDao.insert(
+            historyDao.upsert(
                 Pokemon.History(
                     uid = pokemon.uid,
                     name = pokemon.name,
