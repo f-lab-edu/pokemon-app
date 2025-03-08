@@ -1,6 +1,8 @@
 package com.sdhong.pokemonapp.viewmodel
 
 import com.sdhong.pokemonapp.local.model.Pokemon
+import com.sdhong.pokemonapp.viewmodel.fake.FakeHistoryDao
+import com.sdhong.pokemonapp.viewmodel.fake.FakePokemonApi
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

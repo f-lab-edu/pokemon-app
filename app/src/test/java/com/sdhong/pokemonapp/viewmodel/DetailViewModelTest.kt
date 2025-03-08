@@ -1,6 +1,7 @@
 package com.sdhong.pokemonapp.viewmodel
 
 import com.sdhong.pokemonapp.local.model.PokemonDetail
+import com.sdhong.pokemonapp.viewmodel.fake.FakePokemonApi
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
