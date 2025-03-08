@@ -9,21 +9,21 @@ class FakeHistoryDao {
             name = "bulbasaur",
             imgUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png",
             detailUrl = "https://pokeapi.co/api/v2/pokemon/1/",
-            lastViewed = "2025. 3. 8. 오후 10:10:50"
+            lastViewed = LAST_VIEWED_EARLIEST
         ),
         Pokemon.History(
             uid = 2,
             name = "ivysaur",
             imgUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png",
             detailUrl = "https://pokeapi.co/api/v2/pokemon/2/",
-            lastViewed = "2025. 3. 8. 오후 10:20:05"
+            lastViewed = LAST_VIEWED_MIDDLE
         ),
         Pokemon.History(
             uid = 3,
             name = "venusaur",
             imgUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png",
             detailUrl = "https://pokeapi.co/api/v2/pokemon/3/",
-            lastViewed = "2025. 3. 8. 오후 10:23:07"
+            lastViewed = LAST_VIEWED_LATEST
         )
     )
 
@@ -57,7 +57,10 @@ class FakeHistoryDao {
         historyPokemons = historyPokemons.filter { !it.isChecked }
     }
 
-    fun deleteAll() {
-        historyPokemons = emptyList()
+    companion object {
+        const val LAST_VIEWED_EARLIEST = "2025. 3. 8. 오후 10:10:50"
+        const val LAST_VIEWED_MIDDLE = "2025. 3. 8. 오후 10:20:05"
+        const val LAST_VIEWED_LATEST = "2025. 3. 8. 오후 10:23:07"
+        const val LAST_VIEWED_UPDATED = "2025. 3. 8. 오후 11:20:40"
     }
 }

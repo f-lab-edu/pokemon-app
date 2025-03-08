@@ -15,7 +15,11 @@ class HistoryViewModelTest {
     fun `포켓몬 목록은 최근 조회일 순으로 정렬된다`() {
         val historyPokemons = historyDao.getAll()
         assertEquals(
-            listOf("2025. 3. 8. 오후 10:23:07", "2025. 3. 8. 오후 10:20:05", "2025. 3. 8. 오후 10:10:50"),
+            listOf(
+                FakeHistoryDao.LAST_VIEWED_LATEST,
+                FakeHistoryDao.LAST_VIEWED_MIDDLE,
+                FakeHistoryDao.LAST_VIEWED_EARLIEST
+            ),
             historyPokemons.map { it.lastViewed }
         )
     }
@@ -35,7 +39,7 @@ class HistoryViewModelTest {
         isDeleteMode = false
         val clickedPokemon = historyDao.getAll().first()
         if (!isDeleteMode) {
-            historyDao.upsert(clickedPokemon.copy(lastViewed = "2025. 3. 9. 오전 10:20:40"))
+            historyDao.upsert(clickedPokemon.copy(lastViewed = FakeHistoryDao.LAST_VIEWED_UPDATED))
         }
         assertEquals(
             Pokemon.History(
@@ -43,7 +47,7 @@ class HistoryViewModelTest {
                 name = clickedPokemon.name,
                 imgUrl = clickedPokemon.imgUrl,
                 detailUrl = clickedPokemon.detailUrl,
-                lastViewed = "2025. 3. 9. 오전 10:20:40"
+                lastViewed = FakeHistoryDao.LAST_VIEWED_UPDATED
             ),
             historyDao.getAll().first()
         )
