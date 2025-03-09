@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sdhong.pokemonapp.common.IntentExtraKey
 import com.sdhong.pokemonapp.local.model.PokemonDetail
-import com.sdhong.pokemonapp.remote.api.PokemonApi
+import com.sdhong.pokemonapp.repository.PokemonRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val pokemonApi: PokemonApi
+    private val pokemonRepository: PokemonRepository
 ) : ViewModel() {
 
     private val pokemonId = savedStateHandle[IntentExtraKey.POKEMON_ID] ?: 0
@@ -34,7 +34,7 @@ class DetailViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            pokemonApi.getPokemonDetail(pokemonId).also {
+            pokemonRepository.getPokemonDetail(pokemonId).also {
                 _pokemonDetail.value = PokemonDetail(
                     name = it.name,
                     imgUrl = it.sprites.imgUrl,

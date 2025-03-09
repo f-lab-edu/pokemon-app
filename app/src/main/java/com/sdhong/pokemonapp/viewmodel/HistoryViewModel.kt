@@ -4,8 +4,8 @@ import android.icu.util.Calendar
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sdhong.pokemonapp.common.Formatter
-import com.sdhong.pokemonapp.local.dao.HistoryDao
 import com.sdhong.pokemonapp.local.model.Pokemon
+import com.sdhong.pokemonapp.repository.PokemonRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -17,10 +17,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HistoryViewModel @Inject constructor(
-    private val historyDao: HistoryDao
+    private val pokemonRepository: PokemonRepository
 ) : ViewModel() {
 
-    val historyPokemons: StateFlow<List<Pokemon.History>> = historyDao.getAll().stateIn(
+    val historyPokemons: StateFlow<List<Pokemon.History>> = pokemonRepository.getAll().stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = emptyList()
@@ -32,9 +32,9 @@ class HistoryViewModel @Inject constructor(
     fun onPokemonClick(pokemon: Pokemon.History) {
         viewModelScope.launch {
             if (_isDeleteMode.value) {
-                historyDao.upsert(pokemon.copy(isChecked = !pokemon.isChecked))
+                pokemonRepository.upsert(pokemon.copy(isChecked = !pokemon.isChecked))
             } else {
-                historyDao.upsert(
+                pokemonRepository.upsert(
                     pokemon.copy(
                         lastViewed = Formatter.dateFormat.format(Calendar.getInstance().time)
                     )
@@ -48,9 +48,9 @@ class HistoryViewModel @Inject constructor(
             _isDeleteMode.value = !_isDeleteMode.value
 
             if (!_isDeleteMode.value) {
-                historyDao.deleteChecked()
+                pokemonRepository.deleteChecked()
             }
-            historyDao.updateDeleteMode(_isDeleteMode.value)
+            pokemonRepository.updateDeleteMode(_isDeleteMode.value)
         }
     }
 }

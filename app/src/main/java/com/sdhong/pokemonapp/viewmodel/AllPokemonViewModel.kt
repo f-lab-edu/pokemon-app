@@ -4,10 +4,9 @@ import android.icu.util.Calendar
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sdhong.pokemonapp.common.Formatter
-import com.sdhong.pokemonapp.local.dao.HistoryDao
 import com.sdhong.pokemonapp.local.model.Pokemon
-import com.sdhong.pokemonapp.remote.api.PokemonApi
 import com.sdhong.pokemonapp.remote.model.PokemonListResponse.PokemonListItem
+import com.sdhong.pokemonapp.repository.PokemonRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
@@ -19,8 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AllPokemonViewModel @Inject constructor(
-    private val pokemonApi: PokemonApi,
-    private val historyDao: HistoryDao
+    private val pokemonRepository: PokemonRepository
 ) : ViewModel() {
 
     private val _allPokemon = MutableStateFlow<List<Pokemon.Normal>>(emptyList())
@@ -28,7 +26,7 @@ class AllPokemonViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val result: List<PokemonListItem> = pokemonApi.getAllPokemon().results
+            val result: List<PokemonListItem> = pokemonRepository.getAllPokemon().results
             val imgUrlsDeferred = result.map { item -> getImgUrl(item) }
             val imgUrls = imgUrlsDeferred.awaitAll()
 
@@ -45,13 +43,13 @@ class AllPokemonViewModel @Inject constructor(
 
     private fun getImgUrl(item: PokemonListItem): Deferred<String> = viewModelScope.async {
         val id = getPokemonId(item.url)
-        val imgUrl = pokemonApi.getPokemonDetail(id).sprites.imgUrl
+        val imgUrl = pokemonRepository.getPokemonDetail(id).sprites.imgUrl
         return@async imgUrl
     }
 
     fun onPokemonClick(pokemon: Pokemon.Normal) {
         viewModelScope.launch {
-            historyDao.upsert(
+            pokemonRepository.upsert(
                 Pokemon.History(
                     uid = pokemon.uid,
                     name = pokemon.name,
