@@ -1,4 +1,4 @@
-package com.sdhong.pokemonapp.remote.module
+package com.sdhong.pokemonapp.remote.di
 
 import com.sdhong.pokemonapp.remote.api.PokemonApi
 import dagger.Module
@@ -8,8 +8,8 @@ import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import javax.inject.Singleton
 
-@InstallIn(SingletonComponent::class)
 @Module
+@InstallIn(SingletonComponent::class)
 object PokemonApiModule {
 
     @Singleton

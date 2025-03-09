@@ -1,4 +1,4 @@
-package com.sdhong.pokemonapp.local.module
+package com.sdhong.pokemonapp.local.di
 
 import android.content.Context
 import androidx.room.Room
@@ -11,8 +11,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-@InstallIn(SingletonComponent::class)
 @Module
+@InstallIn(SingletonComponent::class)
 object HistoryDatabaseModule {
 
     @Singleton

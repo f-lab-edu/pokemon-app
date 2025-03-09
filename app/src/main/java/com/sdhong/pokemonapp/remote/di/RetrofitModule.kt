@@ -1,4 +1,4 @@
-package com.sdhong.pokemonapp.remote.module
+package com.sdhong.pokemonapp.remote.di
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
@@ -10,8 +10,8 @@ import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 import javax.inject.Singleton
 
-@InstallIn(SingletonComponent::class)
 @Module
+@InstallIn(SingletonComponent::class)
 object RetrofitModule {
 
     private const val BASE_URL = "https://pokeapi.co/api/v2/"
