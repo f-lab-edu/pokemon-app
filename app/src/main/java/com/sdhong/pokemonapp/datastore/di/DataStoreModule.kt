@@ -1,4 +1,4 @@
-package com.sdhong.pokemonapp.datastore.module
+package com.sdhong.pokemonapp.datastore.di
 
 import android.content.Context
 import androidx.datastore.core.DataStore
