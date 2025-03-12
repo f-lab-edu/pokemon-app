@@ -8,11 +8,13 @@ import com.sdhong.pokemonapp.base.BaseFragment
 import com.sdhong.pokemonapp.databinding.FragmentHistoryBinding
 import com.sdhong.pokemonapp.util.collectLatestStateFlow
 import com.sdhong.pokemonapp.viewmodel.HistoryViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
     bindingFactory = FragmentHistoryBinding::inflate
 ) {
-    private val viewModel: HistoryViewModel by viewModels { HistoryViewModel.Factory }
+    private val viewModel: HistoryViewModel by viewModels()
     private val historyAdapter = MainAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -29,11 +31,11 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
     }
 
     private fun setCollectors() {
-        collectLatestStateFlow(viewModel.historyPokemons) {
+        viewLifecycleOwner.collectLatestStateFlow(viewModel.historyPokemons) {
             historyAdapter.submitList(it)
         }
 
-        collectLatestStateFlow(viewModel.isDeleteMode) { isDeleteMode ->
+        viewLifecycleOwner.collectLatestStateFlow(viewModel.isDeleteMode) { isDeleteMode ->
             binding.buttonEditHistory.text = getString(
                 if (isDeleteMode) R.string.pokemon_history_button_delete
                 else R.string.pokemon_history_button_edit
@@ -42,14 +44,10 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
     }
 
     private fun onPokemonClick(position: Int) {
-        viewModel.onPokemonClick(
-            position = position,
-            startDetailActivity = ::startDetailActivity
-        )
-    }
-
-    override fun onPause() {
-        viewModel.initHistoryPokemons()
-        super.onPause()
+        val pokemon = viewModel.historyPokemons.value[position]
+        viewModel.onPokemonClick(pokemon)
+        if (!viewModel.isDeleteMode.value) {
+            startDetailActivity(pokemon)
+        }
     }
 }

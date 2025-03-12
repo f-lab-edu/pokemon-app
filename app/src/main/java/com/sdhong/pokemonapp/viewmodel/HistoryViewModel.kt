@@ -1,69 +1,56 @@
 package com.sdhong.pokemonapp.viewmodel
 
+import android.icu.util.Calendar
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
-import androidx.lifecycle.viewmodel.CreationExtras
-import com.sdhong.pokemonapp.PokemonApplication
+import androidx.lifecycle.viewModelScope
+import com.sdhong.pokemonapp.common.Formatter
 import com.sdhong.pokemonapp.local.model.Pokemon
-import com.sdhong.pokemonapp.local.repository.HistoryRepository
+import com.sdhong.pokemonapp.repository.PokemonRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HistoryViewModel(
-    private val historyRepository: HistoryRepository
+@HiltViewModel
+class HistoryViewModel @Inject constructor(
+    private val pokemonRepository: PokemonRepository
 ) : ViewModel() {
 
-    val historyPokemons: StateFlow<List<Pokemon.History>> = historyRepository.historyPokemons
+    val historyPokemons: StateFlow<List<Pokemon.History>> = pokemonRepository.getAll().stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = emptyList()
+    )
 
     private val _isDeleteMode = MutableStateFlow(false)
     val isDeleteMode = _isDeleteMode.asStateFlow()
 
-    fun onPokemonClick(
-        position: Int,
-        startDetailActivity: (pokemonId: Int) -> Unit
-    ) {
-        val pokemon = historyPokemons.value[position]
-
-        if (_isDeleteMode.value) {
-            historyRepository.updateCheckbox(pokemon)
-        } else {
-            startDetailActivity(getPokemonId(pokemon.detailUrl))
-
-            historyRepository.removePokemonHistory(pokemon)
-            historyRepository.addPokemonHistory(pokemon)
+    fun onPokemonClick(pokemon: Pokemon.History) {
+        viewModelScope.launch {
+            if (_isDeleteMode.value) {
+                pokemonRepository.upsert(pokemon.copy(isChecked = !pokemon.isChecked))
+            } else {
+                pokemonRepository.upsert(
+                    pokemon.copy(
+                        lastViewed = Formatter.dateFormat.format(Calendar.getInstance().time)
+                    )
+                )
+            }
         }
     }
 
-    private fun getPokemonId(url: String): Int {
-        return url.split("/")[6].toInt()
-    }
-
     fun toggleDeleteMode() {
-        _isDeleteMode.value = !_isDeleteMode.value
-        historyRepository.toggleDeleteMode(_isDeleteMode.value)
-    }
+        viewModelScope.launch {
+            _isDeleteMode.value = !_isDeleteMode.value
 
-    fun initHistoryPokemons() {
-        _isDeleteMode.value = false
-        historyRepository.initHistoryPokemons()
-    }
-
-    companion object {
-
-        val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel> create(
-                modelClass: Class<T>,
-                extras: CreationExtras
-            ): T {
-                val application = checkNotNull(extras[APPLICATION_KEY])
-
-                return HistoryViewModel(
-                    (application as PokemonApplication).historyRepository
-                ) as T
+            if (!_isDeleteMode.value) {
+                pokemonRepository.deleteChecked()
             }
+            pokemonRepository.updateDeleteMode(_isDeleteMode.value)
         }
     }
 }

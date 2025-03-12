@@ -6,7 +6,9 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.sdhong.pokemonapp.base.BaseActivity
 import com.sdhong.pokemonapp.databinding.ActivityMainBinding
 import com.sdhong.pokemonapp.local.MainTab
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(
     bindingFactory = ActivityMainBinding::inflate
 ) {

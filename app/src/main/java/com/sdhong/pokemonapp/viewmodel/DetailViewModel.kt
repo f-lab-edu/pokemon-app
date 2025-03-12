@@ -3,17 +3,22 @@ package com.sdhong.pokemonapp.viewmodel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sdhong.pokemonapp.common.IntentExtraKey
 import com.sdhong.pokemonapp.local.model.PokemonDetail
-import com.sdhong.pokemonapp.remote.module.PokemonApiModule.pokemonApi
+import com.sdhong.pokemonapp.repository.PokemonRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DetailViewModel(
-    savedStateHandle: SavedStateHandle
+@HiltViewModel
+class DetailViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
+    private val pokemonRepository: PokemonRepository
 ) : ViewModel() {
 
-    private val pokemonId = savedStateHandle["POKEMON_ID"] ?: 0
+    private val pokemonId = savedStateHandle[IntentExtraKey.POKEMON_ID] ?: 0
 
     private val _pokemonDetail = MutableStateFlow(
         PokemonDetail(
@@ -29,7 +34,7 @@ class DetailViewModel(
 
     init {
         viewModelScope.launch {
-            pokemonApi.getPokemonDetail(pokemonId).also {
+            pokemonRepository.getPokemonDetail(pokemonId).also {
                 _pokemonDetail.value = PokemonDetail(
                     name = it.name,
                     imgUrl = it.sprites.imgUrl,
