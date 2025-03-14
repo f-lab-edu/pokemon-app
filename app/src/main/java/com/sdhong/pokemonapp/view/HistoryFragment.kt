@@ -47,7 +47,7 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
         val pokemon = viewModel.historyPokemons.value[position]
         viewModel.onPokemonClick(pokemon)
         if (!viewModel.isDeleteMode.value) {
-            startDetailActivity(pokemon)
+            startActivity(DetailActivity.newIntent(requireContext(), pokemon.detailUrl))
         }
     }
 }

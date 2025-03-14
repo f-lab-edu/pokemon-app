@@ -42,8 +42,9 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(
 
     companion object {
 
-        fun newIntent(context: Context, pokemonId: Int): Intent {
+        fun newIntent(context: Context, detailUrl: String): Intent {
             val intent = Intent(context, DetailActivity::class.java)
+            val pokemonId = detailUrl.split("/")[6].toInt()
             intent.putExtra(IntentExtraKey.POKEMON_ID, pokemonId)
             return intent
         }

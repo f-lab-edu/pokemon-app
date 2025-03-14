@@ -35,6 +35,6 @@ class AllPokemonFragment : BaseFragment<FragmentAllPokemonBinding>(
     private fun onPokemonClick(position: Int) {
         val pokemon = viewModel.allPokemon.value[position]
         viewModel.onPokemonClick(pokemon)
-        startDetailActivity(pokemon)
+        startActivity(DetailActivity.newIntent(requireContext(), pokemon.detailUrl))
     }
 }
