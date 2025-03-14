@@ -10,7 +10,7 @@ interface PokemonRepository {
     suspend fun getAllPokemon(): PokemonListResponse
     suspend fun getPokemonDetail(id: Int): PokemonDetailResponse
 
-    fun getAll(): Flow<List<Pokemon.History>>
+    fun flowHistoryPokemons(): Flow<List<Pokemon.History>>
     suspend fun upsert(history: Pokemon.History)
     suspend fun updateDeleteMode(isDeleteMode: Boolean)
     suspend fun deleteChecked()

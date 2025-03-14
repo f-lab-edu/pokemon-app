@@ -20,11 +20,12 @@ class HistoryViewModel @Inject constructor(
     private val pokemonRepository: PokemonRepository
 ) : ViewModel() {
 
-    val historyPokemons: StateFlow<List<Pokemon.History>> = pokemonRepository.getAll().stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000),
-        initialValue = emptyList()
-    )
+    val historyPokemons: StateFlow<List<Pokemon.History>> = pokemonRepository.flowHistoryPokemons()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = emptyList()
+        )
 
     private val _isDeleteMode = MutableStateFlow(false)
     val isDeleteMode = _isDeleteMode.asStateFlow()
