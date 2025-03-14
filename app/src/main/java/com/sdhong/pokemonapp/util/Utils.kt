@@ -10,10 +10,11 @@ import kotlinx.coroutines.launch
 
 fun <T> LifecycleOwner.collectLatestStateFlow(
     stateFlow: StateFlow<T>,
+    lifecycleState: Lifecycle.State = Lifecycle.State.STARTED,
     action: suspend (value: T) -> Unit
 ) {
     lifecycleScope.launch {
-        repeatOnLifecycle(Lifecycle.State.STARTED) {
+        repeatOnLifecycle(lifecycleState) {
             stateFlow.collectLatest {
                 action(it)
             }
