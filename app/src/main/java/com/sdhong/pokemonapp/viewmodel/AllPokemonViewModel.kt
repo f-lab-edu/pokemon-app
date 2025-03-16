@@ -7,6 +7,7 @@ import com.sdhong.pokemonapp.common.Formatter
 import com.sdhong.pokemonapp.local.model.Pokemon
 import com.sdhong.pokemonapp.remote.model.PokemonListResponse.PokemonListItem
 import com.sdhong.pokemonapp.repository.PokemonRepository
+import com.sdhong.pokemonapp.util.getPokemonId
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
@@ -69,8 +70,6 @@ class AllPokemonViewModel @Inject constructor(
             )
         }
     }
-
-    private fun getPokemonId(url: String): Int = url.split("/")[6].toInt()
 
     sealed interface AllPokemonEvent {
         data class StartDetailActivity(val detailUrl: String) : AllPokemonEvent
