@@ -54,12 +54,14 @@ class HistoryViewModel @Inject constructor(
 
     fun toggleDeleteMode() {
         viewModelScope.launch {
-            _isDeleteMode.value = !_isDeleteMode.value
+            val prevIsDeleteMode = _isDeleteMode.value
 
-            if (!_isDeleteMode.value) {
+            if (prevIsDeleteMode) {
                 pokemonRepository.deleteChecked()
             }
-            pokemonRepository.updateDeleteMode(_isDeleteMode.value)
+            pokemonRepository.updateDeleteMode(!prevIsDeleteMode)
+
+            _isDeleteMode.value = !prevIsDeleteMode
         }
     }
 
