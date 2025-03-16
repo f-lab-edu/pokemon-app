@@ -1,4 +1,4 @@
-package com.sdhong.pokemonapp.viewmodel.fake
+package com.sdhong.pokemonapp.viewmodel.prev.fake
 
 import com.sdhong.pokemonapp.local.model.Pokemon
 
