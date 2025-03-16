@@ -35,35 +35,32 @@ class HistoryViewModel @Inject constructor(
     private val _eventChannel = Channel<HistoryEvent>(Channel.BUFFERED)
     val eventFlow = _eventChannel.receiveAsFlow()
 
-    fun onPokemonClick(position: Int) {
-        viewModelScope.launch {
-            val pokemon = historyPokemons.value[position]
+    fun onPokemonClick(position: Int) = viewModelScope.launch {
+        val pokemon = historyPokemons.value[position]
 
-            if (_isDeleteMode.value) {
-                pokemonRepository.upsert(pokemon.copy(isChecked = !pokemon.isChecked))
-            } else {
-                _eventChannel.send(HistoryEvent.StartDetailActivity(pokemon.detailUrl))
-                pokemonRepository.upsert(
-                    pokemon.copy(
-                        lastViewed = Formatter.dateFormat.format(Calendar.getInstance().time)
-                    )
+        if (_isDeleteMode.value) {
+            pokemonRepository.upsert(pokemon.copy(isChecked = !pokemon.isChecked))
+        } else {
+            _eventChannel.send(HistoryEvent.StartDetailActivity(pokemon.detailUrl))
+            pokemonRepository.upsert(
+                pokemon.copy(
+                    lastViewed = Formatter.dateFormat.format(Calendar.getInstance().time)
                 )
-            }
+            )
         }
     }
 
-    fun toggleDeleteMode() {
-        viewModelScope.launch {
-            val prevIsDeleteMode = _isDeleteMode.value
+    fun toggleDeleteMode() = viewModelScope.launch {
+        val prevIsDeleteMode = _isDeleteMode.value
 
-            if (prevIsDeleteMode) {
-                pokemonRepository.deleteChecked()
-            }
-            pokemonRepository.updateDeleteMode(!prevIsDeleteMode)
-
-            _isDeleteMode.value = !prevIsDeleteMode
+        if (prevIsDeleteMode) {
+            pokemonRepository.deleteChecked()
         }
+        pokemonRepository.updateDeleteMode(!prevIsDeleteMode)
+
+        _isDeleteMode.value = !prevIsDeleteMode
     }
+
 
     sealed interface HistoryEvent {
         data class StartDetailActivity(val detailUrl: String) : HistoryEvent
