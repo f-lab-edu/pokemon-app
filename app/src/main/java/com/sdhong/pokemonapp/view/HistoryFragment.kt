@@ -6,7 +6,7 @@ import androidx.fragment.app.viewModels
 import com.sdhong.pokemonapp.R
 import com.sdhong.pokemonapp.base.BaseFragment
 import com.sdhong.pokemonapp.databinding.FragmentHistoryBinding
-import com.sdhong.pokemonapp.util.collectLatestStateFlow
+import com.sdhong.pokemonapp.util.collectLatestFlow
 import com.sdhong.pokemonapp.viewmodel.HistoryViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,11 +31,11 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
     }
 
     private fun setCollectors() {
-        viewLifecycleOwner.collectLatestStateFlow(viewModel.historyPokemons) {
+        viewLifecycleOwner.collectLatestFlow(viewModel.historyPokemons) {
             historyAdapter.submitList(it)
         }
 
-        viewLifecycleOwner.collectLatestStateFlow(viewModel.isDeleteMode) { isDeleteMode ->
+        viewLifecycleOwner.collectLatestFlow(viewModel.isDeleteMode) { isDeleteMode ->
             binding.buttonEditHistory.text = getString(
                 if (isDeleteMode) R.string.pokemon_history_button_delete
                 else R.string.pokemon_history_button_edit

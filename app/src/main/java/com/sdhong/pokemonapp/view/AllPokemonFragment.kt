@@ -5,7 +5,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import com.sdhong.pokemonapp.base.BaseFragment
 import com.sdhong.pokemonapp.databinding.FragmentAllPokemonBinding
-import com.sdhong.pokemonapp.util.collectLatestStateFlow
+import com.sdhong.pokemonapp.util.collectLatestFlow
 import com.sdhong.pokemonapp.viewmodel.AllPokemonViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,7 +27,7 @@ class AllPokemonFragment : BaseFragment<FragmentAllPokemonBinding>(
     }
 
     private fun setCollectors() {
-        viewLifecycleOwner.collectLatestStateFlow(viewModel.allPokemon) {
+        viewLifecycleOwner.collectLatestFlow(viewModel.allPokemon) {
             allPokemonAdapter.submitList(it)
         }
     }
