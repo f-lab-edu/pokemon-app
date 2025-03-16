@@ -21,3 +21,17 @@ fun <T> LifecycleOwner.collectLatestFlow(
         }
     }
 }
+
+fun <T> LifecycleOwner.collectFlow(
+    flow: Flow<T>,
+    lifecycleState: Lifecycle.State = Lifecycle.State.STARTED,
+    action: suspend (value: T) -> Unit
+) {
+    lifecycleScope.launch {
+        repeatOnLifecycle(lifecycleState) {
+            flow.collect {
+                action(it)
+            }
+        }
+    }
+}
