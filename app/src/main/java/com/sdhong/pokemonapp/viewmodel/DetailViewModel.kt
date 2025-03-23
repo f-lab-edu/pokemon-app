@@ -20,16 +20,7 @@ class DetailViewModel @Inject constructor(
 
     private val pokemonId = savedStateHandle[IntentExtraKey.POKEMON_ID] ?: 0
 
-    private val _pokemonDetail = MutableStateFlow(
-        PokemonDetail(
-            name = "",
-            imgUrl = "",
-            weight = 0,
-            height = 0,
-            types = emptyList(),
-            abilities = emptyList()
-        )
-    )
+    private val _pokemonDetail = MutableStateFlow(PokemonDetail.DEFAULT)
     val pokemonDetail = _pokemonDetail.asStateFlow()
 
     init {

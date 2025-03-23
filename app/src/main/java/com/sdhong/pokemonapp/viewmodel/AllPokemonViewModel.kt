@@ -7,12 +7,15 @@ import com.sdhong.pokemonapp.common.Formatter
 import com.sdhong.pokemonapp.local.model.Pokemon
 import com.sdhong.pokemonapp.remote.model.PokemonListResponse.PokemonListItem
 import com.sdhong.pokemonapp.repository.PokemonRepository
+import com.sdhong.pokemonapp.util.getPokemonId
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,6 +26,9 @@ class AllPokemonViewModel @Inject constructor(
 
     private val _allPokemon = MutableStateFlow<List<Pokemon.Normal>>(emptyList())
     val allPokemon = _allPokemon.asStateFlow()
+
+    private val _eventChannel = Channel<AllPokemonEvent>(Channel.BUFFERED)
+    val eventFlow = _eventChannel.receiveAsFlow()
 
     init {
         viewModelScope.launch {
@@ -47,8 +53,12 @@ class AllPokemonViewModel @Inject constructor(
         return@async imgUrl
     }
 
-    fun onPokemonClick(pokemon: Pokemon.Normal) {
+    fun onPokemonClick(position: Int) {
         viewModelScope.launch {
+            val pokemon = _allPokemon.value[position]
+
+            _eventChannel.send(AllPokemonEvent.StartDetailActivity(pokemon.detailUrl))
+
             pokemonRepository.upsert(
                 Pokemon.History(
                     uid = pokemon.uid,
@@ -61,5 +71,7 @@ class AllPokemonViewModel @Inject constructor(
         }
     }
 
-    private fun getPokemonId(url: String): Int = url.split("/")[6].toInt()
+    sealed interface AllPokemonEvent {
+        data class StartDetailActivity(val detailUrl: String) : AllPokemonEvent
+    }
 }

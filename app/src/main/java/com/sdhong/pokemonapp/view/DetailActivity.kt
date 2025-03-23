@@ -9,7 +9,8 @@ import com.sdhong.pokemonapp.R
 import com.sdhong.pokemonapp.base.BaseActivity
 import com.sdhong.pokemonapp.common.IntentExtraKey
 import com.sdhong.pokemonapp.databinding.ActivityDetailBinding
-import com.sdhong.pokemonapp.util.collectLatestStateFlow
+import com.sdhong.pokemonapp.util.collectLatestFlow
+import com.sdhong.pokemonapp.util.getPokemonId
 import com.sdhong.pokemonapp.viewmodel.DetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,7 +28,7 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(
     }
 
     private fun setCollectors() {
-        collectLatestStateFlow(viewModel.pokemonDetail) {
+        collectLatestFlow(viewModel.pokemonDetail) {
             binding.textViewPokemonName.text = it.name
             binding.imageViewPokemon.load(it.imgUrl)
             binding.textViewPokemonDescription.text = getString(
@@ -42,9 +43,9 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(
 
     companion object {
 
-        fun newIntent(context: Context, pokemonId: Int): Intent {
+        fun newIntent(context: Context, detailUrl: String): Intent {
             val intent = Intent(context, DetailActivity::class.java)
-            intent.putExtra(IntentExtraKey.POKEMON_ID, pokemonId)
+            intent.putExtra(IntentExtraKey.POKEMON_ID, getPokemonId(detailUrl))
             return intent
         }
     }

@@ -70,6 +70,9 @@ dependencies {
     implementation(libs.androidx.datastore.preferences)
 
     testImplementation(libs.junit.jupiter)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockito.kotlin)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }

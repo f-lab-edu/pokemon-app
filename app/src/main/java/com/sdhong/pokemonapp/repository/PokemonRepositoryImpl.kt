@@ -18,7 +18,7 @@ class PokemonRepositoryImpl @Inject constructor(
     override suspend fun getPokemonDetail(id: Int): PokemonDetailResponse =
         pokemonApi.getPokemonDetail(id)
 
-    override fun getAll(): Flow<List<Pokemon.History>> = historyDao.getAll()
+    override fun flowHistoryPokemons(): Flow<List<Pokemon.History>> = historyDao.getAll()
 
     override suspend fun upsert(history: Pokemon.History) {
         historyDao.upsert(history)

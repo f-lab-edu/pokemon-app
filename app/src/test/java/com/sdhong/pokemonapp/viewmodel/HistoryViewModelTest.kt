@@ -1,82 +1,93 @@
 package com.sdhong.pokemonapp.viewmodel
 
 import com.sdhong.pokemonapp.local.model.Pokemon
-import com.sdhong.pokemonapp.viewmodel.fake.FakeHistoryDao
+import com.sdhong.pokemonapp.repository.PokemonRepository
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import org.mockito.Mockito
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.verify
 
 class HistoryViewModelTest {
 
-    private val historyDao = FakeHistoryDao()
-
-    private var isDeleteMode = false
+    private val pokemonRepository = mock<PokemonRepository>()
+    private val viewModel = HistoryViewModel(pokemonRepository)
 
     @Test
-    fun `포켓몬 목록은 최근 조회일 순으로 정렬된다`() {
-        val historyPokemons = historyDao.getAll()
-        assertEquals(
-            listOf(
-                FakeHistoryDao.LAST_VIEWED_LATEST,
-                FakeHistoryDao.LAST_VIEWED_MIDDLE,
-                FakeHistoryDao.LAST_VIEWED_EARLIEST
-            ),
-            historyPokemons.map { it.lastViewed }
+    fun `test initData`() {
+        assertEquals(emptyList<List<Pokemon.History>>(), viewModel.historyPokemons.value)
+        assertFalse(viewModel.isDeleteMode.value)
+    }
+
+    @Test
+    fun `DeleteMode가 true일 때 PokemonClick 테스트`() = runTest {
+        val dummyPokemon = Pokemon.History(
+            uid = 1,
+            name = "pikachu",
+            imgUrl = "",
+            detailUrl = "",
+            lastViewed = "",
+            isChecked = false
+        )
+        val dummyPokemonsFlow = MutableStateFlow(listOf(dummyPokemon))
+
+        Mockito.`when`(viewModel.historyPokemons).thenReturn(dummyPokemonsFlow)
+
+        // TODO: 왜 Fail 되는지? 어떻게 하면 StateFlow를 테스트할 수 있을까?
+        assertEquals(listOf(dummyPokemon), viewModel.historyPokemons.value)
+
+        // DeleteMode false -> true
+        viewModel.toggleDeleteMode().join()
+
+        viewModel.onPokemonClick(0)
+        verify(pokemonRepository).upsert(dummyPokemon.copy(isChecked = true))
+    }
+
+    @Test
+    fun `DeleteMode가 false일 때 PokemonClick 테스트`() = runTest {
+        val dummyPokemon = Pokemon.History(
+            uid = 1,
+            name = "pikachu",
+            imgUrl = "",
+            detailUrl = "",
+            lastViewed = "",
+            isChecked = false
+        )
+        val dummyPokemonsFlow = MutableStateFlow(listOf(dummyPokemon))
+
+        Mockito.`when`(viewModel.historyPokemons).thenReturn(dummyPokemonsFlow)
+
+        // TODO: 왜 Fail 되는지? 어떻게 하면 StateFlow를 테스트할 수 있을까?
+        assertEquals(listOf(dummyPokemon), viewModel.historyPokemons.value)
+
+
+        viewModel.onPokemonClick(0)
+
+        // TODO: eventFlow에 event send 잘 되었는지 검증
+
+        verify(pokemonRepository).upsert(
+            dummyPokemon.copy(
+                lastViewed = ""
+            )
         )
     }
 
     @Test
-    fun `삭제모드일 때 포켓몬을 클릭하면 체크박스가 토글된다`() {
-        isDeleteMode = true
-        val clickedPokemon = historyDao.getAll().first()
-        if (isDeleteMode) {
-            historyDao.upsert(clickedPokemon.copy(isChecked = !clickedPokemon.isChecked))
-        }
-        assertEquals(true, historyDao.getAll().first().isChecked)
-    }
+    fun `DeleteMode 토글 테스트`() = runTest {
+        // false 였다가 true로 바뀐 케이스 검증
+        assertFalse(viewModel.isDeleteMode.value)
+        viewModel.toggleDeleteMode().join()
+        verify(pokemonRepository).updateDeleteMode(true)
+        assertTrue(viewModel.isDeleteMode.value)
 
-    @Test
-    fun `삭제모드가 아닐 때 포켓몬을 클릭하면 클릭한 포켓몬의 조회일이 업데이트된다`() {
-        isDeleteMode = false
-        val clickedPokemon = historyDao.getAll().first()
-        if (!isDeleteMode) {
-            historyDao.upsert(clickedPokemon.copy(lastViewed = FakeHistoryDao.LAST_VIEWED_UPDATED))
-        }
-        assertEquals(
-            Pokemon.History(
-                uid = clickedPokemon.uid,
-                name = clickedPokemon.name,
-                imgUrl = clickedPokemon.imgUrl,
-                detailUrl = clickedPokemon.detailUrl,
-                lastViewed = FakeHistoryDao.LAST_VIEWED_UPDATED
-            ),
-            historyDao.getAll().first()
-        )
-    }
-
-    @Test
-    fun `삭제모드일 때 토글 버튼을 클릭하면 삭제모드가 해제된다`() {
-        isDeleteMode = true
-        isDeleteMode = !isDeleteMode
-        historyDao.updateDeleteMode(isDeleteMode)
-        assertEquals(listOf(false, false, false), historyDao.getAll().map { it.isDeleteMode })
-    }
-
-    @Test
-    fun `삭제모드가 아닐 때 토글 버튼을 클릭하면 삭제모드로 변경된다`() {
-        isDeleteMode = false
-        isDeleteMode = !isDeleteMode
-        historyDao.updateDeleteMode(isDeleteMode)
-        assertEquals(listOf(true, true, true), historyDao.getAll().map { it.isDeleteMode })
-    }
-
-    @Test
-    fun `삭제모드일 때 포켓몬 체크 후 토글 버튼 클릭하면 체크된 항목이 모두 삭제된다`() {
-        isDeleteMode = true
-        val clickedPokemon = historyDao.getAll().first()
-        if (isDeleteMode) {
-            historyDao.upsert(clickedPokemon.copy(isChecked = !clickedPokemon.isChecked))
-        }
-        historyDao.deleteChecked()
-        assertEquals(null, historyDao.getAll().find { it.uid == clickedPokemon.uid })
+        // true 였다가 false로 바뀐 케이스 검증
+        viewModel.toggleDeleteMode().join()
+        verify(pokemonRepository).deleteChecked()
+        verify(pokemonRepository).updateDeleteMode(false)
+        assertFalse(viewModel.isDeleteMode.value)
     }
 }

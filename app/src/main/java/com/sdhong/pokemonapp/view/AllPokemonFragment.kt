@@ -5,8 +5,10 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import com.sdhong.pokemonapp.base.BaseFragment
 import com.sdhong.pokemonapp.databinding.FragmentAllPokemonBinding
-import com.sdhong.pokemonapp.util.collectLatestStateFlow
+import com.sdhong.pokemonapp.util.collectFlow
+import com.sdhong.pokemonapp.util.collectLatestFlow
 import com.sdhong.pokemonapp.viewmodel.AllPokemonViewModel
+import com.sdhong.pokemonapp.viewmodel.AllPokemonViewModel.AllPokemonEvent
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,14 +29,23 @@ class AllPokemonFragment : BaseFragment<FragmentAllPokemonBinding>(
     }
 
     private fun setCollectors() {
-        viewLifecycleOwner.collectLatestStateFlow(viewModel.allPokemon) {
+        viewLifecycleOwner.collectLatestFlow(viewModel.allPokemon) {
             allPokemonAdapter.submitList(it)
+        }
+
+        viewLifecycleOwner.collectFlow(viewModel.eventFlow) { event ->
+            when (event) {
+                is AllPokemonEvent.StartDetailActivity -> startActivity(
+                    DetailActivity.newIntent(
+                        requireContext(),
+                        event.detailUrl
+                    )
+                )
+            }
         }
     }
 
     private fun onPokemonClick(position: Int) {
-        val pokemon = viewModel.allPokemon.value[position]
-        viewModel.onPokemonClick(pokemon)
-        startDetailActivity(pokemon)
+        viewModel.onPokemonClick(position)
     }
 }

@@ -1,45 +1,57 @@
 package com.sdhong.pokemonapp.viewmodel
 
+import androidx.lifecycle.SavedStateHandle
+import com.sdhong.pokemonapp.common.IntentExtraKey
 import com.sdhong.pokemonapp.local.model.PokemonDetail
-import com.sdhong.pokemonapp.viewmodel.fake.FakePokemonApi
+import com.sdhong.pokemonapp.remote.model.PokemonDetailResponse
+import com.sdhong.pokemonapp.repository.PokemonRepository
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import org.mockito.Mockito
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.verify
 
 class DetailViewModelTest {
 
-    private val pokemonApi = FakePokemonApi()
-
-    private var pokemonDetail = PokemonDetail(
-        name = "",
-        imgUrl = "",
-        weight = 0,
-        height = 0,
-        types = emptyList(),
-        abilities = emptyList()
-    )
+    private val savedStateHandle = mock<SavedStateHandle>()
+    private val pokemonRepository = mock<PokemonRepository>()
+    private val viewModel = DetailViewModel(savedStateHandle, pokemonRepository)
 
     @Test
-    fun `포켓몬 id가 1인 포켓몬 상세정보를 가져온다`() {
-        pokemonApi.getPokemonDetail(1).also {
-            pokemonDetail = PokemonDetail(
-                name = it.name,
-                imgUrl = it.sprites.imgUrl,
-                weight = it.weight,
-                height = it.height,
-                types = it.types.map { type -> type.type.name },
-                abilities = it.abilities.map { ability -> ability.ability.name }
+    fun `초기 데이터 확인`() {
+        assertEquals(PokemonDetail.DEFAULT, viewModel.pokemonDetail.value)
+    }
+
+    @Test
+    fun `init 블록 테스트`() = runTest {
+        Mockito.`when`(savedStateHandle.get<Int>(IntentExtraKey.POKEMON_ID)).thenReturn(1)
+        assertEquals(1, savedStateHandle[IntentExtraKey.POKEMON_ID])
+
+        Mockito.`when`(pokemonRepository.getPokemonDetail(savedStateHandle[IntentExtraKey.POKEMON_ID] ?: 0)).thenReturn(
+            PokemonDetailResponse(
+                name = "name",
+                sprites = PokemonDetailResponse.Sprites(imgUrl = "imgUrl"),
+                weight = 1,
+                height = 1,
+                types = emptyList(),
+                abilities = emptyList()
             )
-        }
+        )
+
+        // TODO: getPokemonDetail의 인자로 실제로는 0이 들어가서 자꾸 테스트 실패 -> 수정 필요
+        // TODO: 0으로 수정해도 테스트 실패 -> 수정 필요
+        verify(pokemonRepository).getPokemonDetail(1)
+
         assertEquals(
             PokemonDetail(
-                name = "bulbasaur",
-                imgUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png",
-                weight = 69,
-                height = 7,
-                types = listOf("grass", "poison"),
-                abilities = listOf("overgrow", "chlorophyll")
-            ),
-            pokemonDetail
+                name = "name",
+                imgUrl = "imgUrl",
+                weight = 1,
+                height = 1,
+                types = emptyList(),
+                abilities = emptyList()
+            ), viewModel.pokemonDetail.value
         )
     }
 }

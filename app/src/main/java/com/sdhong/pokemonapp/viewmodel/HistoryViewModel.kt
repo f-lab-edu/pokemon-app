@@ -7,10 +7,12 @@ import com.sdhong.pokemonapp.common.Formatter
 import com.sdhong.pokemonapp.local.model.Pokemon
 import com.sdhong.pokemonapp.repository.PokemonRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,37 +22,47 @@ class HistoryViewModel @Inject constructor(
     private val pokemonRepository: PokemonRepository
 ) : ViewModel() {
 
-    val historyPokemons: StateFlow<List<Pokemon.History>> = pokemonRepository.getAll().stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000),
-        initialValue = emptyList()
-    )
+    val historyPokemons: StateFlow<List<Pokemon.History>> = pokemonRepository.flowHistoryPokemons()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = emptyList()
+        )
 
     private val _isDeleteMode = MutableStateFlow(false)
     val isDeleteMode = _isDeleteMode.asStateFlow()
 
-    fun onPokemonClick(pokemon: Pokemon.History) {
-        viewModelScope.launch {
-            if (_isDeleteMode.value) {
-                pokemonRepository.upsert(pokemon.copy(isChecked = !pokemon.isChecked))
-            } else {
-                pokemonRepository.upsert(
-                    pokemon.copy(
-                        lastViewed = Formatter.dateFormat.format(Calendar.getInstance().time)
-                    )
+    private val _eventChannel = Channel<HistoryEvent>(Channel.BUFFERED)
+    val eventFlow = _eventChannel.receiveAsFlow()
+
+    fun onPokemonClick(position: Int) = viewModelScope.launch {
+        val pokemon = historyPokemons.value[position]
+
+        if (_isDeleteMode.value) {
+            pokemonRepository.upsert(pokemon.copy(isChecked = !pokemon.isChecked))
+        } else {
+            _eventChannel.send(HistoryEvent.StartDetailActivity(pokemon.detailUrl))
+            pokemonRepository.upsert(
+                pokemon.copy(
+                    lastViewed = Formatter.dateFormat.format(Calendar.getInstance().time)
                 )
-            }
+            )
         }
     }
 
-    fun toggleDeleteMode() {
-        viewModelScope.launch {
-            _isDeleteMode.value = !_isDeleteMode.value
+    fun toggleDeleteMode() = viewModelScope.launch {
+        val prevIsDeleteMode = _isDeleteMode.value
 
-            if (!_isDeleteMode.value) {
-                pokemonRepository.deleteChecked()
-            }
-            pokemonRepository.updateDeleteMode(_isDeleteMode.value)
+        if (prevIsDeleteMode) {
+            pokemonRepository.deleteChecked()
         }
+        pokemonRepository.updateDeleteMode(!prevIsDeleteMode)
+
+        _isDeleteMode.value = !prevIsDeleteMode
+    }
+
+
+    sealed interface HistoryEvent {
+        data class StartDetailActivity(val detailUrl: String) : HistoryEvent
     }
 }
