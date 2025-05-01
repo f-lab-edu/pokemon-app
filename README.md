@@ -1,4 +1,4 @@
-# 포켓몬 앱
+# 포켓몬 앱 - 개인 프로젝트
 
 ## 📝 프로젝트 소개
 * 포켓몬 앱은 [PokeAPI](https://pokeapi.co/)를 활용하여 포켓몬 리스트와 상세정보를 보여주는 간단한 안드로이드 앱입니다.
@@ -18,7 +18,6 @@
 | Image          | Coil                                           |
 | Asynchronous   | Coroutines, Flow                               |
 | Jetpack        | ViewModel, Room                                |
-| Logging        | Timber                                         |
 
 <br>
 
